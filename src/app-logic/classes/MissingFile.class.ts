@@ -1,14 +1,16 @@
-import { SearchEngine } from "./SearchEngine.class";
-import { SearchType } from "../../../types/SearchTypeEnum"
-import * as path from "path"
-import { SystemFile } from "../../../types/SystemFile";
+import { SearchType } from "@root/types/SearchTypeEnum"
+import { SystemFile } from "@root/types/SystemFile";
+import { SystemFolder } from "@root/types/SystemFolder";
+import { SearchEngine } from "@classes/SearchEngine.class";
+import { SearchResults } from "@classes/SearchResults.class";
+import path from "path"
 
 
 export class MissingFile {
     private file: SystemFile
     private name: string
     private originalUri: string;
-    private originalFolder?: string;
+    private originalFolder: SystemFolder;
     private found?: boolean;
     private newUri?: string;
     private closeMatch?: string[];
@@ -22,9 +24,15 @@ export class MissingFile {
             originalUri: this.originalUri
         }
         this.searchEngine = new SearchEngine()
+        this.originalFolder = {
+            uri: path.dirname(this.originalUri)
+        }
     }
 
-    async searchOnFileSystem() {
-        await this.searchEngine.search(this.file, SearchType.FILESYSTEM)
+    async searchOnFileSystem(): Promise<SearchResults> {
+        const results = await this.searchEngine.search(this.file, this.originalFolder, SearchType.FILESYSTEM)
+        // if (results instanceof SearchResults) {
+        // }
+        return results
     }
 }
