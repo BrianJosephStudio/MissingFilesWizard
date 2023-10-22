@@ -1,4 +1,5 @@
 export enum SearchType {
     FILESYSTEM = "FILESYSTEM",
-    DROPBOX = "DROPBOX"
+    DROPBOX = "DROPBOX",
+    PROJECT = "PROJECT",
 }
