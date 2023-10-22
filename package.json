@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "path": "^0.12.7",
+    "types-for-adobe": "^7.0.12",
     "uuid": "^9.0.1",
     "vue": "^3.3.4"
   },
