@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "path": "^0.12.7",
+    "uuid": "^9.0.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
+    "@types/uuid": "^9.0.6",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
