@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "csinterface-ts": "^1.0.3",
     "path": "^0.12.7",
+    "sass": "^1.69.4",
     "types-for-adobe": "^7.0.12",
     "uuid": "^9.0.1",
     "vue": "^3.3.4"
