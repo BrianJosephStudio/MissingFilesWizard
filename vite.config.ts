@@ -10,7 +10,8 @@ export default defineConfig({
       "@types": "/types",
       "@classes": "/src/app-logic/classes",
       "@components": "/src/components",
-      "@pages": "/src/pages"
+      "@pages": "/src/pages",
+      "@public": "/src/public",
     }
   }
 })
