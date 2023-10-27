@@ -33,13 +33,14 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2rem;
   line-height: 1.1;
 }
 
 h2 {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 0.8rem;
+  font-family: 'Comfortaa', sans-serif;
+  // font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
   font-weight: lighter;
   line-height: 1.1;
   color: black;
@@ -74,6 +75,8 @@ button:focus-visible {
 
 #app {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   // max-width: 1280px;
   margin: 0 auto;
   // padding: 2rem;
@@ -83,16 +86,43 @@ button:focus-visible {
 }
 
 label {
-  font-size: 0.8rem;
+  font-family: 'Comfortaa', sans-serif;
+  // font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
   color: black;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+}
+
+/* Style unchecked checkboxes */
+input[type="checkbox"]:not(:checked) {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+/* Style checked checkboxes */
+input[type="checkbox"]:checked {
+  width: 20px;
+  height: 20px;
+  border: 1px solid hsl(158, 0%, 100%);
+  border-radius: 4px;
+  /* Change the border color for checked */
+  background-color: hsl(158, 46%, 57%);
+  /* Change the background color for checked */
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  width: 18rem;
+  width: 24rem;
   // height: 100%;
-  gap: 0.4rem;
+  gap: 1rem;
   align-items: center;
   // background-color: rgb(217, 180, 138);
   padding: 1rem 0.6rem;
