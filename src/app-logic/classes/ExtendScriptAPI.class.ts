@@ -6,17 +6,12 @@ export enum SCRIPTS {
 }
 
 export default class ExtendScriptAPI {
-    private settings?: AppSettings
+    private settings: AppSettings
     private cs?: CSInterface
 
     constructor() {
-        // this.settings = new AppSettings()
-        try {
-            this.cs = new CSInterface()
-        } catch (e) {
-
-        }
-
+        this.settings = new AppSettings()
+        // this.cs = new CSInterface()
     }
     public async relinkMissingFiles(): Promise<void> {
         // const settings = await this.settings.fetchSettings()
