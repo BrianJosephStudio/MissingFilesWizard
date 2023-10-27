@@ -1,15 +1,14 @@
 // import { readFile } from "fs/promises"
 import config from "../../../config"
-import { Settings, MISSINGFILESPOOL, SEARCHPOOL, RELINKMODE } from "@root/types/Settings.d"
+import { Settings, MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "../../..//types/Settings.d"
 export default class AppSettings {
     constructor() {
 
     }
 
-    public async changeSetting(): Promise<any> {
-
-        await this.getHomeDir()
-        return {}
+    public async changeSetting(settings: Settings): Promise<Settings> {
+        console.log(settings)
+        return settings
     }
 
     public async fetchSettings(): Promise<Settings> {
