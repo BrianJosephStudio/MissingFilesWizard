@@ -1,11 +1,11 @@
-import { Settings, MISSINGFILESPOOL, SEARCHPOOL, RELINKMODE } from "./types/Settings.d"
+import { Settings, MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "./types/Settings.d"
 // import os from "os"
 // const homedir = os.homedir()
 
 const defaultSettings: Settings = {
-    getMissingFilesFrom: MISSINGFILESPOOL.PROJECT,
-    searchMatchingFilesIn: SEARCHPOOL.SYSTEM,
-    relinkMethod: RELINKMODE.RELINKMISSING,
+    missingFilesPool: MISSINGFILESPOOL.PROJECT,
+    searchPool: SEARCHPOOL.SYSTEM,
+    relinkMethod: RELINKMETHOD.RELINKMISSING,
     searchPath: "",
     ignoreFileExtensions: false,
     perfectMatch: true,
