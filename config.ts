@@ -5,7 +5,7 @@ import { Settings, MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "./types/Se
 const defaultSettings: Settings = {
     missingFilesPool: MISSINGFILESPOOL.PROJECT,
     searchPool: SEARCHPOOL.SYSTEM,
-    relinkMethod: RELINKMETHOD.RELINKMISSING,
+    relinkMethod: RELINKMETHOD.RECONNECT,
     searchPath: "",
     ignoreFileExtensions: false,
     perfectMatch: true,
