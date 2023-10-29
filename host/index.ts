@@ -48,10 +48,9 @@ function setSelectionToMissing(itemSelection: FootageItem[]): void {
 
     app.beginUndoGroup('Set Selection to Missing');
 
-    const missingItemsInSelection: Array<FootageItem> = missingInItemArray(itemSelection)
 
-    for (let i = 0; i < missingItemsInSelection.length; i++) {
-        const currentItem = missingItemsInSelection[i]
+    for (let i = 0; i < itemSelection.length; i++) {
+        const currentItem = itemSelection[i]
 
         let myDur: number;
 
