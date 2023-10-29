@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
+    "target": "ES5",
+    "useDefineForClassFields": false,
+    "module": "CommonJS",
     "lib": [
       "ES2020",
       "DOM",
@@ -10,15 +10,16 @@
     ],
     "skipLibCheck": true,
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node10",
+    "esModuleInterop": true,
     "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": false,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
@@ -50,9 +51,9 @@
     "types/**/*.d.ts"
   ],
   "references": [
-    {
-      "path": "./tsconfig.extendscript.json"
-    },
+    // {
+    //   "path": "./tsconfig.extendscript.json"
+    // },
     {
       "path": "./tsconfig.node.json"
     }
