@@ -2,10 +2,13 @@
   "compilerOptions": {
     "composite": true,
     "skipLibCheck": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    "module": "CommonJS",
+    "moduleResolution": "Classic",
+    "allowSyntheticDefaultImports": false,
+    "target": "ES5",
   },
-  "include": ["vite.config.ts"],
-  "type": "module"
+  "include": [
+    "vite.config.ts"
+  ],
+  "type": "node"
 }
