@@ -1,6 +1,6 @@
 import { Settings, MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "./types/Settings.d"
-// import os from "os"
-// const homedir = os.homedir()
+import os from "os"
+const homedir = os.homedir()
 
 const defaultSettings: Settings = {
     missingFilesPool: MISSINGFILESPOOL.PROJECT,
@@ -13,7 +13,8 @@ const defaultSettings: Settings = {
 }
 
 const config = {
-    settingsPath: "@public/AppSettings.json",
+    settingsFileName: "App_Settings.json",
+    settingsPath: `${homedir}/MF Wizard`,
     defaultSettings: defaultSettings,
 }
 
