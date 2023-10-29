@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "composite": true,
-        "module": "none",
+        "module": "ESNext",
         "noLib": true,
         "target": "ES3",
         "ignoreDeprecations": "5.0",
