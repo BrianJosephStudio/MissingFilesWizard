@@ -13,5 +13,14 @@ export default defineConfig({
       "@pages": "/src/pages",
       "@public": "/src/public",
     }
-  }
+  },
+  build: {
+    outDir: "./client",
+    rollupOptions: {
+      output: {
+        format: 'commonjs',
+      }
+    }
+  },
+  base: "./",
 })
