@@ -9,6 +9,7 @@ export class FileSystemSearch {
     constructor() {
 
     }
+    //@ts-ignore
     async search<R = void | SearchError | undefined>(
         targetFile: SystemFile,
         targetFolder: SystemFolder,

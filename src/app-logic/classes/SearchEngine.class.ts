@@ -14,7 +14,7 @@ export class SearchEngine {
         this.fsSearch = new FileSystemSearch()
 
     }
-
+    //@ts-ignore
     public async search<R = SearchResults | SearchError | undefined>(
         targetFile: SystemFile,
         targetFolder: SystemFolder,
