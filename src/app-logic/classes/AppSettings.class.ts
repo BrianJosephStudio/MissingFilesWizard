@@ -1,13 +1,16 @@
 import { readFile, writeFile, mkdir } from "fs/promises"
 import config from "../../../config"
 import { Settings } from "../../..//types/Settings.d"
+import { Logger } from "@classes/Logger.class"
 export default class AppSettings {
     public readonly settingsFile: string
     public readonly settingsFolder: string
+    private logger: Logger
 
     constructor() {
         this.settingsFile = `${config.settingsPath}/${config.settingsFileName}`
         this.settingsFolder = `${config.settingsPath}`
+        this.logger = new Logger()
     }
 
     public async changeSetting(settings: Settings): Promise<Settings> {
@@ -30,10 +33,10 @@ export default class AppSettings {
                 await writeFile(this.settingsFile, JSON.stringify(config.defaultSettings))
                 settingsString = await readFile(this.settingsFile, { encoding: "utf-8" })
                 if (!settingsString) {
-                    alert("Error trying to write down Settings file")
+                    this.logger.log("Error trying to write down Settings file")
                 }
             } else {
-                alert("error not found")
+                this.logger.log("error not found")
             }
         } finally {
             const settings = JSON.parse(settingsString) as Settings
