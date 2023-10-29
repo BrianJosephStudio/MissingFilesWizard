@@ -11,7 +11,7 @@ export default class ExtendScriptAPI {
 
     constructor() {
         this.settings = new AppSettings()
-        // this.cs = new CSInterface()
+        this.cs = new CSInterface()
     }
     public async relinkMissingFiles(): Promise<void> {
         // const settings = await this.settings.fetchSettings()
@@ -19,14 +19,8 @@ export default class ExtendScriptAPI {
 
         // this.cs.evalScript(`relinkMissingFiles(${serializedSettings})`, () => { })
 
-        console.log("works")
     }
     public async unlinkFiles(): Promise<void> {
-        // const settings = await this.settings.fetchSettings()
-        // const serializedSettings = JSON.stringify(settings)
-
-        // this.cs.evalScript(`relinkMissingFiles(${serializedSettings})`, () => { })
-
-        console.log("works too")
+        this.cs?.evalScript("setSelectionToMissing(app.project.selection)", (() => { }))
     }
 }
