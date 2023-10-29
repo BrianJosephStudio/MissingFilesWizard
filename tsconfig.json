@@ -51,9 +51,9 @@
     "types/**/*.d.ts"
   ],
   "references": [
-    // {
-    //   "path": "./tsconfig.extendscript.json"
-    // },
+    {
+      "path": "./tsconfig.extendscript.json"
+    },
     {
       "path": "./tsconfig.node.json"
     }
