@@ -1,12 +1,13 @@
 <template>
-    <div class="container" :data-page="Pages.MAIN">
+    <div class="container" :data-page="page">
         <div class="settingsGrid">
             <h2>Get Missing Files in</h2>
-            <Dropdown :Id="'missingFilesPool'" :Name="'missingFilesPool'" :Options="missingFilesPool"></Dropdown>
+            <Dropdown :Id="'missingFilesPool'" :Name="'missingFilesPool'" :Options="dropdownOptions.missingFilesPool">
+            </Dropdown>
             <h2>Search for matching files in</h2>
-            <Dropdown :Id="'searchPool'" :Name="'searchPool'" :Options="searchPool"></Dropdown>
+            <Dropdown :Id="'searchPool'" :Name="'searchPool'" :Options="dropdownOptions.searchPool"></Dropdown>
             <h2>Relink Method</h2>
-            <Dropdown :Id="'relinkMethod'" :Name="'relinkMethod'" :Options="relinkMethod"></Dropdown>
+            <Dropdown :Id="'relinkMethod'" :Name="'relinkMethod'" :Options="dropdownOptions.relinkMethod"></Dropdown>
             <div class="cbContainer">
                 <label for="ignoreFileExt">Ignore File Extension</label>
                 <input id="ignoreFileExt" type="checkbox" @change="event => ignoreFileExtListener(event)">
@@ -45,12 +46,16 @@ import { Pages } from "@root/types/Pages.d"
 import Dropdown from "@components/DropDown.vue"
 import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 import AppSettings from "@classes/AppSettings.class";
-import { missingFilesPool, searchPool, relinkMethod } from "@root/types/Settings.d"
+import { dropdownOptions } from "@utils/SettingConstants"
 import { onMounted, ref } from "vue";
+import { homedir } from "@mocks/os-mock"// ! Debugging import
+// import os from "os" //-- Production Import
 
 const extendScript = new ExtendScriptAPI()
 const appSettings = new AppSettings()
 const searchPath = ref(null)
+const page = Pages.MAIN
+
 
 const ignoreFileExtListener = async (event: Event): Promise<void> => {
     const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
@@ -71,8 +76,7 @@ const searchPathListener = async (event: Event): Promise<void> => {
 }
 
 onMounted(() => {
-    // (searchPath.value! as HTMLInputElement).value = homedir()
-    (searchPath.value! as HTMLInputElement).value = "C:/Users/Brian/"
+    (searchPath.value! as HTMLInputElement).value = homedir()
 })
 
 </script>

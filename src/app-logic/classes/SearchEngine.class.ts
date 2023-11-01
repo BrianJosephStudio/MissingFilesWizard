@@ -4,6 +4,7 @@ import { SystemFolder } from "@root/types/SystemFolder.d"
 import { FileSystemSearch } from "@classes/FileSystemSearch.class"
 import { SearchResults } from "@classes/SearchResults.class"
 import Config from "@root/search.config"
+import { SearchType } from "@utils/SearchTypeEnum"
 // import { SearchType } from "@root/types/SearchTypeEnum.d"
 
 export class SearchEngine {
@@ -18,13 +19,13 @@ export class SearchEngine {
     public async search<R = SearchResults | SearchError | undefined>(
         targetFile: SystemFile,
         targetFolder: SystemFolder,
-        searchType: number,
+        searchType: SearchType,
 
     ) {
         const results: SearchResults = new SearchResults()
         switch (searchType) {
-            case 0:
-                this.fsSearch.search(0, this.maxDepth, targetFile, targetFolder, results)
+            case SearchType.FILESYSTEM:
+                this.fsSearch.search(targetFile, targetFolder, 0, this.maxDepth, results)
         }
         return results
     }

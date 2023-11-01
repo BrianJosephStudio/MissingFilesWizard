@@ -1,3 +1,4 @@
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
 import { fileURLToPath } from 'url';
@@ -7,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const webpackConfig = {
-    target: "node",
+    target: "web",
     entry: './src/main.ts',
     output: {
         filename: 'bundle.js',
@@ -20,9 +21,11 @@ const webpackConfig = {
             '@root': __dirname,
             '@types': path.resolve(__dirname, 'types'),
             '@classes': path.resolve(__dirname, 'src', 'app-logic', 'classes'),
+            '@utils': path.resolve(__dirname, 'src', 'app-logic', 'utils'),
             '@components': path.resolve(__dirname, 'src', 'components'),
             '@pages': path.resolve(__dirname, 'src', 'pages'),
             '@public': path.resolve(__dirname, 'src', 'public'),
+            '@mocks': path.resolve(__dirname, 'src', 'app-logic', 'utils', 'mocks'),
         },
         extensions: ['.js', '.ts', '.vue'],
     },
@@ -38,7 +41,12 @@ const webpackConfig = {
             },
             {
                 test: /\.ts$/,
-                use: 'ts-loader',
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        appendTsSuffixTo: [/\.vue$/], // This line specifies the appendTsSuffixTo option
+                    },
+                },
                 exclude: /node_modules/,
             },
         ],
@@ -48,6 +56,10 @@ const webpackConfig = {
             template: './index.html',
         }),
         new VueLoaderPlugin(),
+        new webpack.DefinePlugin({
+            '__VUE_OPTIONS_API__': true, // or false, depending on your usage
+            '__VUE_PROD_DEVTOOLS__': false,
+        })
     ],
     devServer: {
         port: 3001,

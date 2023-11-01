@@ -1,3 +1,3 @@
-export enum Pages {
+export const enum Pages {
     MAIN = "MAIN"
 }

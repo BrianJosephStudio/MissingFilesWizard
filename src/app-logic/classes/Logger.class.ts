@@ -1,9 +1,15 @@
+import config from "@root/config"
+
 export class Logger {
     private logger: Function
     private loggerAsString: string
 
     constructor() {
-        this.logger = alert
+        if (config.debug) {
+            this.logger = console.log
+        } else {
+            this.logger = alert
+        }
         this.loggerAsString = "alert"
     }
 

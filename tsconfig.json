@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ESNext",
     "useDefineForClassFields": false,
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": [
-      "ES5",
+      "ES2020",
       "DOM",
       "DOM.Iterable"
     ],
@@ -14,13 +14,13 @@
     "esModuleInterop": true,
     // "allowImportingTsExtensions": true,
     "resolveJsonModule": false,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": false,
     "jsx": "preserve",
     /* Linting */
     "strict": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@root/*": [
@@ -32,6 +32,9 @@
       "@classes/*": [
         "./src/app-logic/classes/*"
       ],
+      "@utils/*": [
+        "./src/app-logic/utils/*"
+      ],
       "@components/*": [
         "./src/components/*"
       ],
@@ -40,16 +43,23 @@
       ],
       "@public/*": [
         "./src/public/*"
-      ]
+      ],
+      "@mocks/*": [
+        "./src/app-logic/utils/mocks/*"
+      ],
     }
   },
   "include": [
+    "./*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "types/**/*.ts",
     "types/**/*.d.ts",
+  ],
+  "exclude": [
+    "node_modules"
   ],
   "references": [
     // {

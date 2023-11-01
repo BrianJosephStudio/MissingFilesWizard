@@ -4,8 +4,9 @@
     </select>
 </template>
 <script setup lang="ts">
-import { Settings, MISSINGFILESPOOL, missingFilesPool, SEARCHPOOL, searchPool, RELINKMETHOD, relinkMethod } from "../../types/Settings.d"
+import { Settings } from "@root/types/Settings.d";
 import AppSettings from "@classes/AppSettings.class";
+import config from "@root/config";
 
 const appSettings = new AppSettings()
 
@@ -18,7 +19,10 @@ const props = defineProps({
 const dropdownListener = async (event: Event): Promise<void> => {
     const target = event.currentTarget as HTMLSelectElement
     const value = target.selectedIndex
-    appSettings.changeSetting({ [target.name]: value })
+    const settings: Settings = {
+        [target.name]: value
+    }
+    appSettings.changeSetting(settings)
 }
 </script>
 
