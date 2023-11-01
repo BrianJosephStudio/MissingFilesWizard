@@ -29,6 +29,11 @@ const webpackConfig = {
         },
         extensions: ['.js', '.ts', '.vue'],
     },
+    externals: {
+        'fs/promises': 'commonjs2 fs/promises',
+        'path': 'commonjs2 path',
+        'os': 'commonjs2 os',
+    },
     module: {
         rules: [
             {
