@@ -1,5 +1,5 @@
 <template>
-    <select class="select" :id="Id" :name="Name" @change="event => dropdownListener(event)">
+    <select class="select" :id="Id" :name="Name" @change="dropdownListener">
         <option class="option" v-for="option of Options" :value="option">{{ option }}</option>
     </select>
 </template>

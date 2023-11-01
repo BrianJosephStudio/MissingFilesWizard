@@ -10,16 +10,15 @@
             <Dropdown :Id="'relinkMethod'" :Name="'relinkMethod'" :Options="dropdownOptions.relinkMethod"></Dropdown>
             <div class="cbContainer">
                 <label for="ignoreFileExt">Ignore File Extension</label>
-                <input id="ignoreFileExt" type="checkbox" @change="event => ignoreFileExtListener(event)">
+                <input id="ignoreFileExt" type="checkbox" @change="ignoreFileExtListener">
             </div>
             <div class="cbContainer">
                 <label for="perfectMatch">Perfect match</label>
-                <input id="perfectMatch" type="checkbox" checked @change="event => perfectMatchListener(event)">
+                <input id="perfectMatch" type="checkbox" checked @change="perfectMatchListener">
             </div>
         </div>
         <div class="searchPathContainer">
-            <input ref="searchPath" id="searchPath" class="searchPath" type="text"
-                @change="event => searchPathListener(event)">
+            <input ref="searchPath" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="folderIcon">
                 <path class="cls-1"
                     d="m6.35,2.35v1.46H1.24c-.29,0-.52.23-.52.52v-1.98c0-.2.16-.35.35-.35h4.93c.19,0,.35.15.35.35Z" />
