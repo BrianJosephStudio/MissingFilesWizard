@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES5",
     "useDefineForClassFields": false,
-    "module": "ESNext",
+    "module": "CommonJS",
     "lib": [
-      "ES2020",
+      "ES2015",
       "DOM",
       "DOM.Iterable"
     ],
