@@ -4,7 +4,7 @@
     "useDefineForClassFields": false,
     "module": "CommonJS",
     "lib": [
-      "ES2020",
+      "ES5",
       "DOM",
       "DOM.Iterable"
     ],
@@ -12,10 +12,10 @@
     /* Bundler mode */
     "moduleResolution": "Node10",
     "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": false,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "preserve",
     /* Linting */
     "strict": true,
@@ -48,14 +48,15 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "types/**/*.d.ts"
+    "types/**/*.ts",
+    "types/**/*.d.ts",
   ],
   "references": [
-    {
-      "path": "./tsconfig.extendscript.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
+    // {
+    //   "path": "./tsconfig.extendscript.json"
+    // },
+    // {
+    //   "path": "./tsconfig.node.json"
+    // }
   ]
 }

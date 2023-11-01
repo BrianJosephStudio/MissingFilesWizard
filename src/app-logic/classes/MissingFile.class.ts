@@ -1,8 +1,8 @@
-import { SearchType } from "@root/types/SearchTypeEnum"
-import { SystemFile } from "@root/types/SystemFile";
-import { SystemFolder } from "@root/types/SystemFolder";
+import { SystemFile } from "@root/types/SystemFile.d";
+import { SystemFolder } from "@root/types/SystemFolder.d";
 import { SearchEngine } from "@classes/SearchEngine.class";
 import { SearchResults } from "@classes/SearchResults.class";
+import { SearchType } from "@root/types/SearchTypeEnum.d"
 import path from "path"
 
 
@@ -30,7 +30,7 @@ export class MissingFile {
     }
 
     async searchOnFileSystem(): Promise<SearchResults> {
-        const results = await this.searchEngine.search(this.file, this.originalFolder, SearchType.FILESYSTEM)
+        const results = await this.searchEngine.search(this.file, this.originalFolder, 0)
         // if (results instanceof SearchResults) {
         // }
         return results

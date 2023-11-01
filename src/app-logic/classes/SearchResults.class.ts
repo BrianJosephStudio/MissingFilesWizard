@@ -1,4 +1,4 @@
-import { SystemFile } from "@root/types/SystemFile"
+import { SystemFile } from "@root/types/SystemFile.d"
 import { ResultsRegistry } from "@classes/ResultsRegistry.class"
 import { v4 as uuidv4 } from "uuid"
 

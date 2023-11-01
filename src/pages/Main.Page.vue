@@ -41,13 +41,12 @@
 </template>
 
 <script setup lang="ts">
-import { Pages } from "../../types/Pages.d"
+import { Pages } from "@root/types/Pages.d"
 import Dropdown from "@components/DropDown.vue"
 import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 import AppSettings from "@classes/AppSettings.class";
-import { missingFilesPool, searchPool, relinkMethod } from "../../types/Settings.d"
+import { missingFilesPool, searchPool, relinkMethod } from "@root/types/Settings.d"
 import { onMounted, ref } from "vue";
-import { homedir } from "os";
 
 const extendScript = new ExtendScriptAPI()
 const appSettings = new AppSettings()

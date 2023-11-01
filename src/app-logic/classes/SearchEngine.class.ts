@@ -1,10 +1,10 @@
-import { SearchType } from "@root/types/SearchTypeEnum"
-import { SearchError } from "@root/types/SearchError"
-import { SystemFile } from "@root/types/SystemFile"
-import { SystemFolder } from "@root/types/SystemFolder"
+import { SearchError } from "@root/types/SearchError.d"
+import { SystemFile } from "@root/types/SystemFile.d"
+import { SystemFolder } from "@root/types/SystemFolder.d"
 import { FileSystemSearch } from "@classes/FileSystemSearch.class"
 import { SearchResults } from "@classes/SearchResults.class"
 import Config from "@root/search.config"
+// import { SearchType } from "@root/types/SearchTypeEnum.d"
 
 export class SearchEngine {
     private fsSearch: FileSystemSearch
@@ -18,13 +18,13 @@ export class SearchEngine {
     public async search<R = SearchResults | SearchError | undefined>(
         targetFile: SystemFile,
         targetFolder: SystemFolder,
-        searchType: SearchType,
+        searchType: number,
 
     ) {
         const results: SearchResults = new SearchResults()
         switch (searchType) {
-            case SearchType.FILESYSTEM:
-                this.fsSearch.search(targetFile, targetFolder, 0, this.maxDepth, results)
+            case 0:
+                this.fsSearch.search(0, this.maxDepth, targetFile, targetFolder, results)
         }
         return results
     }
