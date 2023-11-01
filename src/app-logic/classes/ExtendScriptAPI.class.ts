@@ -1,5 +1,6 @@
 import AppSettings from "@classes/AppSettings.class";
 import { CSInterface } from "csinterface-ts"
+import { SearchJob } from "@classes/SearchJob.class";
 import config from "@root/config";
 
 export enum SCRIPTS {
