@@ -1,7 +1,7 @@
 import { Settings } from "./types/Settings.d"
 import { MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "@utils/SettingConstants"
-import * as os from "@mocks/os-mock"//!DEBUGMODE
-// import os from "os" //-- Production Import
+// import * as os from "@mocks/os-mock"//!DEBUGMODE
+import os from "os" //-- Production Import
 
 const homedir = os.homedir()
 
@@ -19,7 +19,7 @@ const config = {
     settingsFileName: "App_Settings.json",
     settingsPath: `${homedir}/MF Wizard`,
     defaultSettings: defaultSettings,
-    debug: true //!DEBUGMODE
+    debug: false //!DEBUGMODE
 }
 
 export default config

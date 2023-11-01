@@ -3,8 +3,8 @@ import { SystemFolder } from "@root/types/SystemFolder.d";
 import { SearchEngine } from "@classes/SearchEngine.class";
 import { SearchResults } from "@classes/SearchResults.class";
 import { SearchType } from "@root/src/app-logic/utils/SearchTypeEnum"
-import path from "@mocks/path-mock" //!DEBUGMODE
-// import path from "path" //-- Production Import
+// import path from "@mocks/path-mock" //!DEBUGMODE
+import path from "path" //-- Production Import
 
 export class MissingFile {
     private file: SystemFile

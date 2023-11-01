@@ -1,5 +1,5 @@
-import { readFile, writeFile, mkdir } from "@mocks/fs-mock" //! Debugging Import
-// import { readFile, writeFile, mkdir } from "fs/promises" //-- Production Import
+// import { readFile, writeFile, mkdir } from "@mocks/fs-mock" //!DEBUGMODE
+import { readFile, writeFile, mkdir } from "fs/promises" //-- Production Import
 import config from "@root/config"
 import { Settings } from "@root/types/Settings.d"
 import { Logger } from "@classes/Logger.class"

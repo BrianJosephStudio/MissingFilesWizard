@@ -3,8 +3,8 @@ import { SystemFolder } from "@root/types/SystemFolder.d";
 import { SearchError } from "@root/types/SearchError.d"
 import { SearchResults } from "@classes/SearchResults.class";
 import { readdir, stat } from "fs/promises";
-import path from "@mocks/path-mock" //!DEBUGMODE
-// import path from "path" //-- Production Import
+// import path from "@mocks/path-mock" //!DEBUGMODE
+import path from "path" //-- Production Import
 
 export class FileSystemSearch {
     constructor() {

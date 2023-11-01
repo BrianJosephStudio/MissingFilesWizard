@@ -47,8 +47,8 @@ import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 import AppSettings from "@classes/AppSettings.class";
 import { dropdownOptions } from "@utils/SettingConstants"
 import { onMounted, ref } from "vue";
-import { homedir } from "@mocks/os-mock"// ! Debugging import
-// import os from "os" //-- Production Import
+// import { homedir } from "@mocks/os-mock"// !DEBUGMODE
+import { homedir } from "os" //-- Production Import
 
 const extendScript = new ExtendScriptAPI()
 const appSettings = new AppSettings()
