@@ -9,7 +9,7 @@ const defaultSettings: Settings = {
     missingFilesPool: MISSINGFILESPOOL.SELECTION,
     searchPool: SEARCHPOOL.SYSTEM,
     relinkMethod: RELINKMETHOD.RECONNECT,
-    searchPath: "",
+    searchPath: homedir,
     ignoreFileExtensions: false,
     perfectMatch: true,
     showHelpTips: true
