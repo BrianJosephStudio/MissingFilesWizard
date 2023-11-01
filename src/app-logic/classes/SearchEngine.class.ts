@@ -5,7 +5,6 @@ import { FileSystemSearch } from "@classes/FileSystemSearch.class"
 import { SearchResults } from "@classes/SearchResults.class"
 import Config from "@root/search.config"
 import { SearchType } from "@utils/SearchTypeEnum"
-// import { SearchType } from "@root/types/SearchTypeEnum.d"
 
 export class SearchEngine {
     private fsSearch: FileSystemSearch
