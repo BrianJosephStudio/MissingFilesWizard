@@ -27,7 +27,7 @@
             </svg>
         </div>
         <div class="buttons">
-            <button class="findFilesButton" @click="extendScript.relinkMissingFiles">
+            <button class="findFilesButton" @click="searchFiles">
                 Find Files
             </button>
             <button class="unlinkButton" @click="extendScript.unlinkFiles">
@@ -44,6 +44,7 @@
 import { Pages } from "@root/types/Pages.d"
 import Dropdown from "@components/DropDown.vue"
 import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
+import SearchJob from "@classes/SearchJob.class";
 import AppSettings from "@classes/AppSettings.class";
 import { dropdownOptions } from "@utils/SettingConstants"
 import { onMounted, ref } from "vue";
@@ -51,25 +52,28 @@ import { onMounted, ref } from "vue";
 import { homedir } from "os" //-- Production Import
 
 const extendScript = new ExtendScriptAPI()
-const appSettings = new AppSettings()
 const searchPath = ref(null)
 const page = Pages.MAIN
 
+const searchFiles = async () => {
+    const searchJob = new SearchJob()
+    searchJob.start()
+}
 
 const ignoreFileExtListener = async (event: Event): Promise<void> => {
     const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
-    appSettings.changeSetting({ ignoreFileExtensions: checkedStatus })
+    AppSettings.changeSetting({ ignoreFileExtensions: checkedStatus })
 }
 
 const perfectMatchListener = async (event: Event): Promise<void> => {
     const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
-    appSettings.changeSetting({ perfectMatch: checkedStatus })
+    AppSettings.changeSetting({ perfectMatch: checkedStatus })
 }
 
 const searchPathListener = async (event: Event): Promise<void> => {
     const target = event.currentTarget as HTMLInputElement
     const value = target!.value
-    appSettings.changeSetting({
+    AppSettings.changeSetting({
         searchPath: value
     })
 }
