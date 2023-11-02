@@ -1,29 +1,46 @@
+import { Settings } from "http2";
+import AppSettings from "./AppSettings.class";
 import { MissingFile } from "./MissingFile.class";
+import { SEARCHPOOL } from "../utils/SettingConstants";
+import { SystemFile } from "@root/types/SystemFile";
+import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 
-export class SearchJob {
-    private missingFiles: string[]
+export default class SearchJob {
+    private missingFilePaths: string[]
     private searchQueue: MissingFile[]
+    private extenScriptAPI: ExtendScriptAPI
 
-    constructor(missingFiles: string[]) {
-        this.missingFiles = missingFiles
+    constructor() {
+        this.missingFilePaths = []
         this.searchQueue = []
+        this.extenScriptAPI = new ExtendScriptAPI()
     }
 
-    async createQueue(): Promise<MissingFile[]> {
+    async getMissingFilePaths(): Promise<void> {
+        this.missingFilePaths = await this.extenScriptAPI.getMissingFilePaths()
+    }
+
+    async createQueue(): Promise<void> {
         const filteredSet: Set<string> = new Set()
-        this.missingFiles.forEach(missingFile => {
+        this.missingFilePaths.forEach(missingFile => {
             filteredSet.add(missingFile)
         })
 
         const queueItems = Array.from(filteredSet)
-        await Promise.all(
-            queueItems.map(async (path) => {
-                const missingFile: MissingFile = new MissingFile(path)
-                this.searchQueue.push(missingFile)
-            })
-        )
-
-        return this.searchQueue
+        queueItems.forEach(async (path) => {
+            const missingFile: MissingFile = new MissingFile(path)
+            this.searchQueue.push(missingFile)
+        })
     }
 
+    async start(): Promise<void> {
+        await AppSettings.refreshSettings()
+
+        await this.getMissingFilePaths()
+        await this.createQueue()
+
+        this.searchQueue.forEach(async (missingFile: MissingFile) => {
+            await missingFile.search()
+        })
+    }
 }
