@@ -5,6 +5,9 @@ import { SearchResults } from "@classes/SearchResults.class";
 import { SearchType } from "@root/src/app-logic/utils/SearchTypeEnum"
 // import path from "@mocks/path-mock" //!DEBUGMODE
 import path from "path" //-- Production Import
+import AppSettings from "@classes/AppSettings.class";
+import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
+import Reconnector from "@classes/Reconnector.class";
 
 export class MissingFile {
     private file: SystemFile
@@ -29,10 +32,11 @@ export class MissingFile {
         }
     }
 
-    async searchOnFileSystem(): Promise<SearchResults> {
-        const results = await this.searchEngine.search(this.file, this.originalFolder, SearchType.FILESYSTEM)
-        // if (results instanceof SearchResults) {
-        // }
-        return results
+    async search(): Promise<void> {
+        const searchResults: SearchResults = await this.searchEngine.search(this.file, this.originalFolder)
+
+        const reconnector = new Reconnector(this, searchResults)
+        const reconnected: boolean = await reconnector.reconnect()
+        this.found = reconnected
     }
 }
