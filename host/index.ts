@@ -1,4 +1,4 @@
-function missingInProject(): FootageItem[] {
+function getMissingFilesInProject(): FootageItem[] {
     var missingItemsInProject: FootageItem[] = [];
     for (var i = 1; i <= app.project.numItems; i++) {
         const currentItem = app.project.item(i) as FootageItem;
