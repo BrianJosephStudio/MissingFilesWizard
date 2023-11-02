@@ -1,33 +1,46 @@
 import AppSettings from "@classes/AppSettings.class";
 import { CSInterface } from "csinterface-ts"
-import { SearchJob } from "@classes/SearchJob.class";
 import config from "@root/config";
+import { MISSINGFILESPOOL } from "../utils/SettingConstants";
+import { Settings } from "@root/types/Settings";
 
 export enum SCRIPTS {
 
 }
 
 export default class ExtendScriptAPI {
-    private settings: AppSettings
     private cs?: CSInterface
 
     constructor() {
-        this.settings = new AppSettings()
         if (config.debug) { return }
         this.cs = new CSInterface()
     }
-    public async relinkMissingFiles(): Promise<void> {
-        const settings = await this.settings.fetchSettings()
-        const serializedSettings = JSON.stringify(settings)
-        if (config.debug) {
-            console.log(serializedSettings)
-            return
-        }
-        this.cs?.evalScript(`relinkMissingFiles(${serializedSettings})`, () => { })
 
-    }
     public async unlinkFiles(): Promise<void> {
         if (config.debug) { return }
         this.cs?.evalScript("setSelectionToMissing(app.project.selection)", (() => { }))
+    }
+
+    public async getMissingFilePaths(): Promise<string[]> {
+        const settings: Settings = AppSettings.currentSettings
+        let missingFilePaths: string[] = []
+
+        switch (settings.missingFilesPool) {
+            case MISSINGFILESPOOL.PROJECT:
+                missingFilePaths = await this.getMissingFilesInProject()
+        }
+
+        return missingFilePaths
+    }
+
+    private async getMissingFilesInProject(): Promise<string[]> {
+        const script = `getMissingFilesInProject()`
+        let missingFilePaths: string[] = []
+
+        this.cs?.evalScript(script, ((response: string[]) => {
+            missingFilePaths = response
+        }))
+
+        return missingFilePaths
     }
 }
