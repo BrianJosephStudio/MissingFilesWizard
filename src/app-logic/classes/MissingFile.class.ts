@@ -10,16 +10,17 @@ import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 import Reconnector from "@classes/Reconnector.class";
 
 export class MissingFile {
-    private file: SystemFile
-    private name: string
-    private originalUri: string;
-    private originalFolder: SystemFolder;
-    private found?: boolean;
-    private newUri?: string;
-    private closeMatch?: string[];
+    public file: SystemFile
+    public name: string
+    public originalUri: string;
+    public originalFolder: SystemFolder;
+    public id: number
+    public found?: boolean;
+    public newUri?: string;
+    public closeMatch?: string[];
     private searchEngine: SearchEngine;
 
-    constructor(originalUri: string) {
+    constructor(originalUri: string, id: number) {
         this.name = path.basename(originalUri)
         this.originalUri = originalUri
         this.file = {
@@ -30,6 +31,7 @@ export class MissingFile {
         this.originalFolder = {
             uri: path.dirname(this.originalUri)
         }
+        this.id = id
     }
 
     async search(): Promise<void> {
