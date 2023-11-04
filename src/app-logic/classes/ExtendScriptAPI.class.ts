@@ -3,15 +3,23 @@ import { CSInterface } from "csinterface-ts"
 import config from "@root/config";
 import { MISSINGFILESPOOL } from "../utils/SettingConstants";
 import { Settings } from "@root/types/Settings";
+import { MissingItem } from "@root/types/MissingItem";
+import { Logger } from "@classes/Logger.class";
 
 export enum SCRIPTS {
 
 }
+interface csResponse {
+    result: boolean,
+    message: string
+}
 
 export default class ExtendScriptAPI {
     private cs?: CSInterface
+    private logger: Logger
 
     constructor() {
+        this.logger = new Logger()
         if (config.debug) { return }
         this.cs = new CSInterface()
     }
@@ -21,9 +29,9 @@ export default class ExtendScriptAPI {
         this.cs?.evalScript("setSelectionToMissing(app.project.selection)", (() => { }))
     }
 
-    public async getMissingFilePaths(): Promise<string[]> {
+    public async getMissingFilePaths(): Promise<MissingItem[]> {
         const settings: Settings = AppSettings.currentSettings
-        let missingFilePaths: string[] = []
+        let missingFilePaths: MissingItem[] = []
 
         switch (settings.missingFilesPool) {
             case MISSINGFILESPOOL.PROJECT:
@@ -33,14 +41,46 @@ export default class ExtendScriptAPI {
         return missingFilePaths
     }
 
-    private async getMissingFilesInProject(): Promise<string[]> {
-        const script = `getMissingFilesInProject()`
-        let missingFilePaths: string[] = []
+    private async getMissingFilesInProject(): Promise<MissingItem[]> {
+        const script = `getUrisandIdsFromFootageItemArray(
+            getMissingFilesInProject()
+        )`
+        let missingFilePaths: MissingItem[] = []
 
-        this.cs?.evalScript(script, ((response: string[]) => {
-            missingFilePaths = response
+        this.cs?.evalScript(script, ((response: string) => {
+            missingFilePaths = JSON.parse(response) as MissingItem[]
         }))
 
         return missingFilePaths
+    }
+
+    public async reconnectMissingFile(itemId: number, newUrl: string): Promise<boolean> {
+        const script = `reconnectMissingFile("${itemId}","${newUrl}")`
+        let reconnected: boolean = false
+
+        this.cs?.evalScript(script, async (response) => {
+            const csResponse = JSON.parse(response) as csResponse
+            if (!csResponse.result) {
+                this.logger.log(csResponse.message)
+            }
+            reconnected = csResponse.result
+        })
+        return reconnected
+    }
+
+    public async openDialog(): Promise<void> {
+        const currentPath = AppSettings.currentSettings.searchPath
+        const script = `openDialog("${currentPath}")`
+        this.cs?.evalScript(script, (response: string) => {
+            if (response === "Error" || !response) {
+                this.logger.log("Error trying to set search path")
+                return
+            }
+            const newSetting: Settings = {
+                searchPath: response.replace(/\\/g, "/")
+            }
+            AppSettings.changeSetting(newSetting)
+            AppSettings.setSearchPathOnUI(response)
+        })
     }
 }
