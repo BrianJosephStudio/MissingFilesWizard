@@ -172,9 +172,14 @@ function openDialog(currentPath: string): string {
     if (!newFolder.exists) {
         return "Error"
     } else {
-        return newFolder.fsName
+        return newFolder.fullName
     }
 }
+
+function getProjectPath(): string {
+    return app.project.file.path
+}
+
 function stringifyOutput(output: Object): string {
     return JSON.stringify(output)
 }

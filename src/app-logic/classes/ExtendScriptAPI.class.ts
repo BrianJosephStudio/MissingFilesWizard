@@ -5,6 +5,7 @@ import { MISSINGFILESPOOL } from "../utils/SettingConstants";
 import { Settings } from "@root/types/Settings";
 import { MissingItem } from "@root/types/MissingItem";
 import { Logger } from "@classes/Logger.class";
+import { ScriptCompileContext } from "vue/compiler-sfc";
 
 export enum SCRIPTS {
 
@@ -77,10 +78,20 @@ export default class ExtendScriptAPI {
                 return
             }
             const newSetting: Settings = {
-                searchPath: response.replace(/\\/g, "/")
+                searchPath: response.replace(/\\/g, "/").replace(/%20/g, " ")
             }
             AppSettings.changeSetting(newSetting)
             AppSettings.setSearchPathOnUI(response)
+        })
+    }
+
+    public async setProjectPath(): Promise<void> {
+        const script = `getProjectPath()`
+        this.cs?.evalScript(script, async (response) => {
+            if (response && response !== "") {
+                return AppSettings.setSearchPathOnUI(response.replace(/\\/g, "/").replace(/%20/g, " "))
+            }
+            this.logger.log("Could not get project path")
         })
     }
 }

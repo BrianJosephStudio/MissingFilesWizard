@@ -62,8 +62,12 @@ const searchFiles = async () => {
     searchJob.start()
 }
 
-const openDialog = async () => {
-    await extendScript.openDialog()
+const openDialog = async (event: MouseEvent) => {
+    if (event.altKey) {
+        extendScript.setProjectPath()
+        return
+    }
+    extendScript.openDialog()
 }
 
 const ignoreFileExtListener = async (event: Event): Promise<void> => {
