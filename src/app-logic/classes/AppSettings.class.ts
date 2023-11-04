@@ -19,7 +19,7 @@ export default class AppSettings {
             ...settings
         }
 
-        await writeFile(this.settingsFile, JSON.stringify(newSettings))
+        await writeFile(this.settingsFile, JSON.stringify(newSettings, null, 2))
         if (config.debug) { console.log(settings) }
 
         this.currentSettings = newSettings
@@ -50,5 +50,13 @@ export default class AppSettings {
             const settings = JSON.parse(settingsString) as Settings
             AppSettings.currentSettings = settings
         }
+    }
+
+    public static setSearchPathOnUI(path: string): void {
+        const textInput = document.getElementById("searchPath") as HTMLInputElement
+        textInput!.value = path
+        const pathLength = path.length
+        textInput.setSelectionRange(pathLength, pathLength)
+        textInput.focus()
     }
 }
