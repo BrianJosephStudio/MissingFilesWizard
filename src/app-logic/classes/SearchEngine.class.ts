@@ -7,6 +7,7 @@ import Config from "@root/search.config"
 import { SearchType } from "@utils/SearchTypeEnum"
 import AppSettings from "@classes/AppSettings.class"
 import { Settings } from "@root/types/Settings"
+import { SEARCHPOOL } from "../utils/SettingConstants"
 
 export class SearchEngine {
     private fsSearch: FileSystemSearch
@@ -25,7 +26,7 @@ export class SearchEngine {
         const results: SearchResults = new SearchResults()
 
         switch (settings.searchPool) {
-            case SearchType.FILESYSTEM:
+            case SEARCHPOOL.SYSTEM:
                 this.fsSearch.search(targetFile, targetFolder, 0, this.maxDepth, results)
         }
         return results
