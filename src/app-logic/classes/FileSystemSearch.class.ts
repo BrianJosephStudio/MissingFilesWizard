@@ -2,7 +2,8 @@ import { SystemFile } from "@root/types/SystemFile.d";
 import { SystemFolder } from "@root/types/SystemFolder.d";
 import { SearchError } from "@root/types/SearchError.d"
 import { SearchResults } from "@classes/SearchResults.class";
-import { readdir, stat } from "fs/promises";
+// import { readFile, writeFile, mkdir } from "@mocks/fs-mock" //!DEBUGMODE
+import { readdir, stat } from "fs/promises";//-- Production Import
 // import path from "@mocks/path-mock" //!DEBUGMODE
 import path from "path" //-- Production Import
 

@@ -4,28 +4,34 @@ import config from "@root/config"
 import { Settings } from "@root/types/Settings.d"
 import { Logger } from "@classes/Logger.class"
 export default class AppSettings {
-    public readonly settingsFile: string
-    public readonly settingsFolder: string
-    private logger: Logger
+    public static currentSettings: Settings
+    public static settingsFile: string = `${config.settingsPath}/${config.settingsFileName}`
+    public static settingsFolder: string = `${config.settingsPath}`
+    private static logger: Logger
 
     constructor() {
-        this.settingsFile = `${config.settingsPath}/${config.settingsFileName}`
-        this.settingsFolder = `${config.settingsPath}`
-        this.logger = new Logger()
     }
 
-    public async changeSetting(settings: Settings): Promise<Settings> {
-        const currentSettings = await this.fetchSettings()
+    public static async changeSetting(settings: Settings): Promise<Settings> {
+        const currentSettings = await AppSettings.fetchSettings()
         const newSettings: Settings = {
             ...currentSettings,
             ...settings
         }
-        await writeFile(this.settingsFile, JSON.stringify(newSettings))
+
+        await writeFile(this.settingsFile, JSON.stringify(newSettings, null, 2))
         if (config.debug) { console.log(settings) }
+
+        this.currentSettings = newSettings
         return newSettings
     }
 
-    public async fetchSettings(): Promise<Settings> {
+    public static async fetchSettings(): Promise<Settings> {
+        await AppSettings.refreshSettings()
+        return this.currentSettings
+    }
+
+    public static async refreshSettings(): Promise<void> {
         let settingsString: string = ""
         try {
             settingsString = await readFile(this.settingsFile, { encoding: "utf-8" })
@@ -35,14 +41,22 @@ export default class AppSettings {
                 await writeFile(this.settingsFile, JSON.stringify(config.defaultSettings))
                 settingsString = await readFile(this.settingsFile, { encoding: "utf-8" })
                 if (!settingsString) {
-                    this.logger.log("Error trying to write down Settings file")
+                    AppSettings.logger.log("Error trying to write down Settings file")
                 }
             } else {
-                this.logger.log("error not found")
+                AppSettings.logger.log("error not found")
             }
         } finally {
             const settings = JSON.parse(settingsString) as Settings
-            return settings
+            AppSettings.currentSettings = settings
         }
+    }
+
+    public static setSearchPathOnUI(path: string): void {
+        const textInput = document.getElementById("searchPath") as HTMLInputElement
+        textInput!.value = path
+        const pathLength = path.length
+        textInput.setSelectionRange(pathLength, pathLength)
+        textInput.focus()
     }
 }

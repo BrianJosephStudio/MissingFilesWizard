@@ -19,15 +19,17 @@
         </div>
         <div class="searchPathContainer">
             <input ref="searchPath" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="folderIcon">
-                <path class="cls-1"
-                    d="m6.35,2.35v1.46H1.24c-.29,0-.52.23-.52.52v-1.98c0-.2.16-.35.35-.35h4.93c.19,0,.35.15.35.35Z" />
-                <path class="cls-1"
-                    d="m15.28,4.65v8.52c0,.28-.23.51-.52.51H1.24c-.29,0-.52-.23-.52-.51V4.65c0-.29.23-.52.52-.52h13.52c.29,0,.52.23.52.52Z" />
-            </svg>
+            <div @click="openDialog">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="folderIcon">
+                    <path class="cls-1"
+                        d="m6.35,2.35v1.46H1.24c-.29,0-.52.23-.52.52v-1.98c0-.2.16-.35.35-.35h4.93c.19,0,.35.15.35.35Z" />
+                    <path class="cls-1"
+                        d="m15.28,4.65v8.52c0,.28-.23.51-.52.51H1.24c-.29,0-.52-.23-.52-.51V4.65c0-.29.23-.52.52-.52h13.52c.29,0,.52.23.52.52Z" />
+                </svg>
+            </div>
         </div>
         <div class="buttons">
-            <button class="findFilesButton" @click="extendScript.relinkMissingFiles">
+            <button class="findFilesButton" @click="searchFiles">
                 Find Files
             </button>
             <button class="unlinkButton" @click="extendScript.unlinkFiles">
@@ -44,6 +46,7 @@
 import { Pages } from "@root/types/Pages.d"
 import Dropdown from "@components/DropDown.vue"
 import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
+import SearchJob from "@classes/SearchJob.class";
 import AppSettings from "@classes/AppSettings.class";
 import { dropdownOptions } from "@utils/SettingConstants"
 import { onMounted, ref } from "vue";
@@ -51,31 +54,49 @@ import { onMounted, ref } from "vue";
 import { homedir } from "os" //-- Production Import
 
 const extendScript = new ExtendScriptAPI()
-const appSettings = new AppSettings()
 const searchPath = ref(null)
 const page = Pages.MAIN
 
+const searchFiles = async () => {
+    const searchJob = new SearchJob()
+    searchJob.start()
+}
+
+const openDialog = async (event: MouseEvent) => {
+    if (event.altKey) {
+        extendScript.setProjectPath()
+        return
+    }
+    extendScript.openDialog()
+}
 
 const ignoreFileExtListener = async (event: Event): Promise<void> => {
     const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
-    appSettings.changeSetting({ ignoreFileExtensions: checkedStatus })
+    AppSettings.changeSetting({ ignoreFileExtensions: checkedStatus })
 }
 
 const perfectMatchListener = async (event: Event): Promise<void> => {
     const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
-    appSettings.changeSetting({ perfectMatch: checkedStatus })
+    AppSettings.changeSetting({ perfectMatch: checkedStatus })
 }
 
 const searchPathListener = async (event: Event): Promise<void> => {
     const target = event.currentTarget as HTMLInputElement
-    const value = target!.value
-    appSettings.changeSetting({
+    const value = target!.value.replace(/\\/g, "/")
+    AppSettings.changeSetting({
         searchPath: value
     })
 }
 
-onMounted(() => {
-    (searchPath.value! as HTMLInputElement).value = homedir()
+onMounted(async () => {
+    await AppSettings.refreshSettings()
+    let currentPath: string | undefined = AppSettings.currentSettings.searchPath;
+
+    if (currentPath === "") {
+        currentPath = homedir().replace(/\\/g, "/")
+    }
+
+    (searchPath.value! as HTMLInputElement).value = currentPath!
 })
 
 </script>
@@ -112,7 +133,7 @@ onMounted(() => {
         border: none;
         height: 1.3rem;
         color: black;
-        padding: 0.3rem;
+        padding: 0.3rem 1rem 0.3rem 0.3rem;
         font-size: 0.9rem;
         width: 100%;
         flex-grow: 1;

@@ -5,7 +5,8 @@ import { FileSystemSearch } from "@classes/FileSystemSearch.class"
 import { SearchResults } from "@classes/SearchResults.class"
 import Config from "@root/search.config"
 import { SearchType } from "@utils/SearchTypeEnum"
-// import { SearchType } from "@root/types/SearchTypeEnum.d"
+import AppSettings from "@classes/AppSettings.class"
+import { Settings } from "@root/types/Settings"
 
 export class SearchEngine {
     private fsSearch: FileSystemSearch
@@ -19,11 +20,11 @@ export class SearchEngine {
     public async search<R = SearchResults | SearchError | undefined>(
         targetFile: SystemFile,
         targetFolder: SystemFolder,
-        searchType: SearchType,
-
     ) {
+        const settings: Settings = AppSettings.currentSettings
         const results: SearchResults = new SearchResults()
-        switch (searchType) {
+
+        switch (settings.searchPool) {
             case SearchType.FILESYSTEM:
                 this.fsSearch.search(targetFile, targetFolder, 0, this.maxDepth, results)
         }

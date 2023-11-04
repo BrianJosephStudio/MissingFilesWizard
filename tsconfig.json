@@ -62,9 +62,9 @@
     "node_modules"
   ],
   "references": [
-    // {
-    //   "path": "./tsconfig.extendscript.json"
-    // },
+    {
+      "path": "./tsconfig.extendscript.json"
+    },
     // {
     //   "path": "./tsconfig.node.json"
     // }

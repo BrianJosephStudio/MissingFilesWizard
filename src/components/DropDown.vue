@@ -8,8 +8,6 @@ import { Settings } from "@root/types/Settings.d";
 import AppSettings from "@classes/AppSettings.class";
 import config from "@root/config";
 
-const appSettings = new AppSettings()
-
 const props = defineProps({
     Id: String,
     Name: String,
@@ -22,7 +20,7 @@ const dropdownListener = async (event: Event): Promise<void> => {
     const settings: Settings = {
         [target.name]: value
     }
-    appSettings.changeSetting(settings)
+    AppSettings.changeSetting(settings)
 }
 </script>
 
