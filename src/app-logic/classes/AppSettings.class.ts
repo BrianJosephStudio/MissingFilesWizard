@@ -4,7 +4,7 @@ import config from "@root/config"
 import { Settings } from "@root/types/Settings.d"
 import { Logger } from "@classes/Logger.class"
 export default class AppSettings {
-    public static currentSettings: Settings
+    public static currentSettings: Settings = config.defaultSettings
     public static settingsFile: string = `${config.settingsPath}/${config.settingsFileName}`
     public static settingsFolder: string = `${config.settingsPath}`
     private static logger: Logger

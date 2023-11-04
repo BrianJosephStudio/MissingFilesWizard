@@ -1,3 +1,5 @@
+import { MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "@root/src/app-logic/utils/SettingConstants"
+
 export interface Settings {
     missingFilesPool?: MISSINGFILESPOOL
     searchPool?: SEARCHPOOL
