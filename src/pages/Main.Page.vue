@@ -2,23 +2,26 @@
     <div class="container" :data-page="page">
         <div class="settingsGrid">
             <h2>Get Missing Files in</h2>
-            <Dropdown :Id="'missingFilesPool'" :Name="'missingFilesPool'" :Options="dropdownOptions.missingFilesPool">
+            <Dropdown :Id="'missingFilesPool'" :Name="'missingFilesPool'" :Options="dropdownOptions.missingFilesPool"
+                :Selected="selectedMissingPool">
             </Dropdown>
             <h2>Search for matching files in</h2>
-            <Dropdown :Id="'searchPool'" :Name="'searchPool'" :Options="dropdownOptions.searchPool"></Dropdown>
+            <Dropdown :Id="'searchPool'" :Name="'searchPool'" :Options="dropdownOptions.searchPool"
+                :Selected="selectedSearchPool"></Dropdown>
             <h2>Relink Method</h2>
-            <Dropdown :Id="'relinkMethod'" :Name="'relinkMethod'" :Options="dropdownOptions.relinkMethod"></Dropdown>
+            <Dropdown :Id="'relinkMethod'" :Name="'relinkMethod'" :Options="dropdownOptions.relinkMethod"
+                :Selected="selectedRelinkMethod"></Dropdown>
             <div class="cbContainer">
                 <label for="ignoreFileExt">Ignore File Extension</label>
-                <input id="ignoreFileExt" type="checkbox" @change="ignoreFileExtListener">
+                <input ref="ignoreFileExtensionCheckbox" id="ignoreFileExt" type="checkbox" @change="ignoreFileExtListener">
             </div>
             <div class="cbContainer">
                 <label for="perfectMatch">Perfect match</label>
-                <input id="perfectMatch" type="checkbox" checked @change="perfectMatchListener">
+                <input ref="perfectMatchCheckbox" id="perfectMatch" type="checkbox" checked @change="perfectMatchListener">
             </div>
         </div>
         <div class="searchPathContainer">
-            <input ref="searchPath" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
+            <input ref="searchPathInput" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
             <div @click="openDialog">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="folderIcon">
                     <path class="cls-1"
@@ -54,7 +57,15 @@ import { onMounted, ref } from "vue";
 import { homedir } from "os" //-- Production Import
 
 const extendScript = new ExtendScriptAPI()
-const searchPath = ref(null)
+
+let selectedMissingPool = ref(dropdownOptions.missingFilesPool[0])
+let selectedSearchPool = ref(dropdownOptions.searchPool[0])
+let selectedRelinkMethod = ref(dropdownOptions.relinkMethod[0])
+
+const ignoreFileExtensionCheckbox = ref(null)
+const perfectMatchCheckbox = ref(null)
+const searchPathInput = ref(null)
+
 const page = Pages.MAIN
 
 const searchFiles = async () => {
@@ -90,13 +101,20 @@ const searchPathListener = async (event: Event): Promise<void> => {
 
 onMounted(async () => {
     await AppSettings.refreshSettings()
-    let currentPath: string | undefined = AppSettings.currentSettings.searchPath;
+    const settings = AppSettings.currentSettings;
 
+    selectedMissingPool.value = dropdownOptions.missingFilesPool[settings.missingFilesPool!];
+    selectedSearchPool.value = dropdownOptions.searchPool[settings.searchPool!];
+    selectedRelinkMethod.value = dropdownOptions.relinkMethod[settings.relinkMethod!];
+
+    (ignoreFileExtensionCheckbox.value! as HTMLInputElement).checked = settings.ignoreFileExtensions!;
+    (perfectMatchCheckbox.value! as HTMLInputElement).checked = settings.perfectMatch!;
+
+    let currentPath: string | undefined = settings.searchPath;
     if (currentPath === "") {
         currentPath = homedir().replace(/\\/g, "/")
-    }
-
-    (searchPath.value! as HTMLInputElement).value = currentPath!
+    };
+    (searchPathInput.value! as HTMLInputElement).value = currentPath!
 })
 
 </script>
