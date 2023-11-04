@@ -1,3 +1,5 @@
+import { MissingItem } from "@root/types/MissingItem";
+
 function getMissingFilesInProject(): FootageItem[] {
     var missingItemsInProject: FootageItem[] = [];
     for (var i = 1; i <= app.project.numItems; i++) {
@@ -108,18 +110,71 @@ function missingInComposition(compItem: CompItem): FootageItem[] {
             missingInComp.push((currentItem as FootageItem))
         };
     };
-    return missingInComp // todo: Depure repeated
+    return missingInComp
 }
 
-function getUrisFromFootageItemArray(itemArray: FootageItem[]): string[] {
-    const uriArray: string[] = []
+function getUrisandIdsFromFootageItemArray(itemArray: FootageItem[]): string {
+    const uriArray: MissingItem[] = []
 
     for (let i = 0; i < itemArray.length; i++) {
         const currentItem = itemArray[i]
         if (!currentItem) { continue }
         if (!(currentItem instanceof FootageItem) || !currentItem.file) { continue }
-        uriArray.push(currentItem.file.fsName)
+        uriArray.push({
+            uri: currentItem.file.fsName,
+            id: currentItem.id
+        })
+    }
+    return stringifyOutput(uriArray)
+}
+
+function reconnectMissingFile(id: number, newUrl: string): string {
+    let output: {
+        result: boolean,
+        message: string
+    } = {
+        result: false,
+        message: "Generic error"
+    }
+    const foundMatch = new File(newUrl)
+
+    if (!foundMatch.exists) {
+        output.message = "File does not exist"
+    } else {
+        const missingItem = app.project.itemById(id) as FootageItem
+        if (missingItem.typeName !== "Footage" || missingItem instanceof FootageItem === false || !missingItem.footageMissing) {
+            output.message = "Item is not missing"
+        } else {
+            missingItem.replace(foundMatch)
+            if (missingItem.file.fsName !== foundMatch.fsName) {
+                output.message = "Reconnection was attempted but failed"
+            } else {
+                output = {
+                    result: true,
+                    message: "Reconnection Successful"
+                }
+            }
+        }
+    }
+    return stringifyOutput(output)
+}
+
+function openDialog(currentPath: string): string {
+    const prompt = "Select your new search path"
+    const currentFolder = new Folder(currentPath)
+    let newFolder: Folder
+    if (currentFolder.exists) {
+        newFolder = currentFolder.selectDlg(prompt)
+    } else {
+        newFolder = Folder.selectDialog(prompt)
     }
 
-    return uriArray
+    if (!newFolder.exists) {
+        return "Error"
+    } else {
+        return newFolder.fsName
+    }
+}
+function stringifyOutput(output: Object): string {
+    return JSON.stringify(output)
 }
