@@ -34,7 +34,7 @@ export class FileSystemSearch {
             const stats = await stat(filePath.uri!)
 
             if (stats.isDirectory()) {
-                this.search(filePath, targetFolder, currentDepth + 1, maxDepth, results)
+                await this.search(targetFile, { uri: filePath.uri! }, currentDepth + 1, maxDepth, results)
             } else if (fsFile === targetFile.name) {
                 results.add(filePath)
                 return //! 'return' limits 'Results' to only one match, if you want to find more potential matches; change to 'break'
