@@ -140,7 +140,7 @@ function reconnectMissingFile(id: number, newUrl: string): string {
     if (!foundMatch.exists) {
         output.message = "File does not exist"
     } else {
-        const missingItem = app.project.itemById(id) as FootageItem
+        const missingItem = app.project.itemByID(id) as FootageItem
         if (missingItem.typeName !== "Footage" || missingItem instanceof FootageItem === false || !missingItem.footageMissing) {
             output.message = "Item is not missing"
         } else {
