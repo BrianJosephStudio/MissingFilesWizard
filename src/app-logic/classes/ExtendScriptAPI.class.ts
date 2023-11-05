@@ -43,26 +43,29 @@ export default class ExtendScriptAPI {
     }
 
     private async getMissingFilesInProject(): Promise<MissingItem[]> {
-        const script = `getUrisandIdsFromFootageItemArray(
-            getMissingFilesInProject()
-        )`
-        let missingFilePaths: MissingItem[] = []
-
-        this.cs?.evalScript(script, ((response: string) => {
-            missingFilePaths = JSON.parse(response) as MissingItem[]
-        }))
-
-        return missingFilePaths
+        return new Promise<MissingItem[]>((resolve, reject) => {
+            const script = `getUrisandIdsFromFootageItemArray(
+                getMissingFilesInProject()
+            )`;
+            this.cs?.evalScript(script, (response: string) => {
+                try {
+                    const missingFilePaths = JSON.parse(response) as MissingItem[];
+                    resolve(missingFilePaths);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
     }
 
+
     public async reconnectMissingFile(itemId: number, newUrl: string): Promise<boolean> {
-        const script = `reconnectMissingFile("${itemId}","${newUrl}")`
+        const script = `reconnectMissingFile(${itemId},"${newUrl}")`
         let reconnected: boolean = false
 
         this.cs?.evalScript(script, async (response) => {
             const csResponse = JSON.parse(response) as csResponse
             if (!csResponse.result) {
-                this.logger.log(csResponse.message)
             }
             reconnected = csResponse.result
         })

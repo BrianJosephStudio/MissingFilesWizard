@@ -7,7 +7,8 @@ import Config from "@root/search.config"
 import { SearchType } from "@utils/SearchTypeEnum"
 import AppSettings from "@classes/AppSettings.class"
 import { Settings } from "@root/types/Settings"
-import { SEARCHPOOL } from "../utils/SettingConstants"
+import { SEARCHPOOL } from "@utils/SettingConstants"
+import { MissingFile } from "@classes/MissingFile.class"
 
 export class SearchEngine {
     private fsSearch: FileSystemSearch
@@ -19,15 +20,14 @@ export class SearchEngine {
     }
     //@ts-ignore
     public async search<R = SearchResults | SearchError | undefined>(
-        targetFile: SystemFile,
-        targetFolder: SystemFolder,
+        missingFile: MissingFile
     ) {
         const settings: Settings = AppSettings.currentSettings
         const results: SearchResults = new SearchResults()
 
         switch (settings.searchPool) {
             case SEARCHPOOL.SYSTEM:
-                this.fsSearch.search(targetFile, targetFolder, 0, this.maxDepth, results)
+                await this.fsSearch.search(missingFile.file, { uri: settings.searchPath! }, 0, this.maxDepth, results)
         }
         return results
     }
