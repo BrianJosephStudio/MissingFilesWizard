@@ -2,6 +2,8 @@ import { MissingFile } from "@classes/MissingFile.class";
 import { SearchResults } from "@classes/SearchResults.class";
 import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 import { Logger } from "@classes/Logger.class";
+// import path from "@mocks/path-mock" //!DEBUGMODE
+import path from "path" //-- Production Import
 
 export default class Reconnector {
     private missingFile: MissingFile
@@ -23,7 +25,7 @@ export default class Reconnector {
         }
         let reconnected: boolean = false
         const id = this.missingFile.id
-        const uri = this.searchResults.results[0].uri
+        const uri = this.searchResults.results[0].uri?.replace(/\\/g, "/")
         reconnected = await this.extendScriptApi.reconnectMissingFile(id, uri!)
 
         if (reconnected) {
