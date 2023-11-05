@@ -4,7 +4,6 @@ function getMissingFilesInProject(): FootageItem[] {
     var missingItemsInProject: FootageItem[] = [];
     for (var i = 1; i <= app.project.numItems; i++) {
         const currentItem = app.project.item(i) as FootageItem;
-        currentItem.mainSource
         if (
             currentItem.mainSource && (
                 !((currentItem.mainSource as any) instanceof FileSource) &&
