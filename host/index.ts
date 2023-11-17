@@ -112,15 +112,16 @@ function missingInComposition(compItem: CompItem): FootageItem[] {
     return missingInComp
 }
 
-function getUrisandIdsFromFootageItemArray(itemArray: FootageItem[]): string {
+function getUrisAndIdsFromFootageItemArray(itemArray: FootageItem[]): string {
     const uriArray: MissingItem[] = []
 
     for (let i = 0; i < itemArray.length; i++) {
         const currentItem = itemArray[i]
         if (!currentItem) { continue }
-        if (!(currentItem instanceof FootageItem) || !currentItem.file) { continue }
+        if (!(currentItem instanceof FootageItem)) { continue }
         uriArray.push({
-            uri: currentItem.file.fsName,
+            name: currentItem.name,
+            uri: currentItem.file?.fsName,
             id: currentItem.id
         })
     }
