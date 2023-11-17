@@ -24,7 +24,7 @@ export class SearchEngine {
 
         switch (settings.searchPool) {
             case SEARCHPOOL.SYSTEM:
-                await this.fsSearch.search(missingFile.file, { uri: settings.searchPath! }, 0, this.maxDepth, results)
+                await this.fsSearch.search(missingFile, { uri: settings.searchPath! }, 0, this.maxDepth, results)
         }
         return results
     }
