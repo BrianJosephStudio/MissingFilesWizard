@@ -1,10 +1,7 @@
 import { SearchError } from "@root/types/SearchError.d"
-import { SystemFile } from "@root/types/SystemFile.d"
-import { SystemFolder } from "@root/types/SystemFolder.d"
 import { FileSystemSearch } from "@classes/FileSystemSearch.class"
 import { SearchResults } from "@classes/SearchResults.class"
-import Config from "@root/search.config"
-import { SearchType } from "@utils/SearchTypeEnum"
+import Config from "@root/config"
 import AppSettings from "@classes/AppSettings.class"
 import { Settings } from "@root/types/Settings"
 import { SEARCHPOOL } from "@utils/SettingConstants"
@@ -27,7 +24,7 @@ export class SearchEngine {
 
         switch (settings.searchPool) {
             case SEARCHPOOL.SYSTEM:
-                await this.fsSearch.search(missingFile.file, { uri: settings.searchPath! }, 0, this.maxDepth, results)
+                await this.fsSearch.search(missingFile, { uri: settings.searchPath! }, 0, this.maxDepth, results)
         }
         return results
     }
