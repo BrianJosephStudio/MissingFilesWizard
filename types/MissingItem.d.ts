@@ -1,4 +1,5 @@
 export interface MissingItem {
-    uri: string,
-    id: number
+    name: string,
+    uri?: string,
+    id: number,
 }
