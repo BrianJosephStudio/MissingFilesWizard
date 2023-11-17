@@ -33,6 +33,7 @@ export class MissingFile {
 
     async search(): Promise<void> {
         const searchResults: SearchResults = await this.searchEngine.search(this)
+        this.found = true
         const reconnector = new Reconnector(this, searchResults)
         const reconnected: boolean = await reconnector.reconnect()
         this.found = reconnected
