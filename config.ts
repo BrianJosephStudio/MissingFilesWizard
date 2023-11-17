@@ -21,7 +21,7 @@ const config: Config = {
     settingsPath: `${homedir}/MF Wizard`,
     defaultSettings: defaultSettings,
     debug: false, //!DEBUGMODE
-    maxDepth: 2
+    maxDepth: 10
 }
 
 export default config
