@@ -28,17 +28,24 @@ export class FileSystemSearch {
         targetFolder.uri = targetFolder.uri.replace(/^~/, os.homedir())
 
         const files = await readdir(targetFolder.uri)
+        await Promise.all(
+            files.map(async fsFile => {
+                try {
+                    const filePath: SystemFile = { name: fsFile, uri: path.join(targetFolder.uri, fsFile) }
+                    const stats = await stat(filePath.uri!)
 
-        for await (const fsFile of files) {
-            const filePath: SystemFile = { name: fsFile, uri: path.join(targetFolder.uri, fsFile) }
-            const stats = await stat(filePath.uri!)
+                    if (stats.isDirectory()) {
+                        await this.search(targetFile, { uri: filePath.uri! }, currentDepth + 1, maxDepth, results)
+                    } else if (fsFile === targetFile.name) {
+                        results.add(filePath)
+                        return //! 'return' limits 'Results' to only one match, if you want to find more potential matches; change to 'break'
+                    }
+                } catch (e) {
+                    alert(e)
+                    return
+                }
+            })
 
-            if (stats.isDirectory()) {
-                await this.search(targetFile, { uri: filePath.uri! }, currentDepth + 1, maxDepth, results)
-            } else if (fsFile === targetFile.name) {
-                results.add(filePath)
-                return //! 'return' limits 'Results' to only one match, if you want to find more potential matches; change to 'break'
-            }
-        }
+        )
     }
 }
