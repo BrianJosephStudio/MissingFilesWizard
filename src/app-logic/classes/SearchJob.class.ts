@@ -35,7 +35,7 @@ export default class SearchJob {
         });
 
         queueItems.forEach(async (missingItem) => {
-            const missingFile: MissingFile = new MissingFile(missingItem.uri, missingItem.id)
+            const missingFile: MissingFile = new MissingFile(missingItem.name, missingItem.uri, missingItem.id)
             this.searchQueue.push(missingFile)
         })
     }
