@@ -5,7 +5,6 @@ import { MISSINGFILESPOOL } from "../utils/SettingConstants";
 import { Settings } from "@root/types/Settings";
 import { MissingItem } from "@root/types/MissingItem";
 import { Logger } from "@classes/Logger.class";
-import { ScriptCompileContext } from "vue/compiler-sfc";
 
 export enum SCRIPTS {
 
@@ -38,13 +37,12 @@ export default class ExtendScriptAPI {
             case MISSINGFILESPOOL.PROJECT:
                 missingFilePaths = await this.getMissingFilesInProject()
         }
-
         return missingFilePaths
     }
 
     private async getMissingFilesInProject(): Promise<MissingItem[]> {
         return new Promise<MissingItem[]>((resolve, reject) => {
-            const script = `getUrisandIdsFromFootageItemArray(
+            const script = `getUrisAndIdsFromFootageItemArray(
                 getMissingFilesInProject()
             )`;
             this.cs?.evalScript(script, (response: string) => {
