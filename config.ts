@@ -13,7 +13,8 @@ const defaultSettings: Settings = {
     searchPath: homedir,
     ignoreFileExtensions: false,
     perfectMatch: true,
-    showHelpTips: true
+    showHelpTips: true,
+    maxDepth: 12
 }
 
 const config: Config = {
@@ -21,7 +22,6 @@ const config: Config = {
     settingsPath: `${homedir}/MF Wizard`,
     defaultSettings: defaultSettings,
     debug: false, //!DEBUGMODE
-    maxDepth: 10
 }
 
 export default config
