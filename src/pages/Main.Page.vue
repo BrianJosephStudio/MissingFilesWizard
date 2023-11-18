@@ -23,7 +23,7 @@
         <div class="maxDepthContainer">
             <label for="maxDepth">Maximum Search Depth</label>
             <input ref="maxDepthInput" class="maxDepth" type="text" name="maxDepth" id="maxDepthInput"
-                :onchange="(event: Event) => filterMaxDepthInput(event)">
+                @change="filterMaxDepthInput">
         </div>
         <div class="searchPathContainer">
             <input ref="searchPathInput" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
