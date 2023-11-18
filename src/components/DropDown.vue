@@ -37,19 +37,13 @@ onMounted(async () => {
 .select {
     // font-family: 'Comfortaa', sans-serif;
     font-family: 'Quicksand', sans-serif;
-    text-align: center;
     background-color: hsl(158, 46%, 57%);
+    color: white;
     border-radius: 0.3rem;
     border: none;
     outline: none;
+    text-align: center;
     font-size: 1rem;
     cursor: pointer;
-
-    .option {
-
-        &:hover {
-            background-color: hsl(330, 45%, 72%);
-        }
-    }
 }
 </style>

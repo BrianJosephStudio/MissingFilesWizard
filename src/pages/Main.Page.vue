@@ -168,7 +168,7 @@ onMounted(async () => {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: flex-end;
     gap: 0.6rem;
 
     .maxDepth {
@@ -219,10 +219,12 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-
+    
     button {
+        color: white;
         width: 100%;
         font-family: 'Comfortaa', sans-serif;
+        outline: none;
     }
 
     .findFilesButton {
