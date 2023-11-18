@@ -1,5 +1,6 @@
 import AppSettings from "@classes/AppSettings.class";
-import { CSInterface } from "csinterface-ts"
+// import { CSInterface } from "@mocks/csInterface-mock" //!DEBUGMODE
+import { CSInterface } from "csinterface-ts" //-- Production Import
 import config from "@root/config";
 import { MISSINGFILESPOOL } from "../utils/SettingConstants";
 import { Settings } from "@root/types/Settings";

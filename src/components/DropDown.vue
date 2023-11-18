@@ -6,8 +6,6 @@
 <script setup lang="ts">
 import { Settings } from "@root/types/Settings.d";
 import AppSettings from "@classes/AppSettings.class";
-import { MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "@root/src/app-logic/utils/SettingConstants"
-import config from "@root/config";
 import { onMounted } from "vue";
 
 const selectedMissingPool = AppSettings.currentSettings.missingFilesPool
@@ -41,7 +39,7 @@ onMounted(async () => {
     font-family: 'Quicksand', sans-serif;
     text-align: center;
     background-color: hsl(158, 46%, 57%);
-    // border-radius: 0.3rem;
+    border-radius: 0.3rem;
     border: none;
     outline: none;
     font-size: 1rem;

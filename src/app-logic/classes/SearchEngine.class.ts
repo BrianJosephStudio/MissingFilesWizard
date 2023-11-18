@@ -11,7 +11,7 @@ export class SearchEngine {
     private fsSearch: FileSystemSearch
     private maxDepth: number
     constructor() {
-        this.maxDepth = Config.maxDepth
+        this.maxDepth = AppSettings.currentSettings.maxDepth!
         this.fsSearch = new FileSystemSearch()
 
     }

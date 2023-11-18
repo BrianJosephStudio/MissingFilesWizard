@@ -20,6 +20,11 @@
                 <input ref="perfectMatchCheckbox" id="perfectMatch" type="checkbox" checked @change="perfectMatchListener">
             </div>
         </div>
+        <div class="maxDepthContainer">
+            <label for="maxDepth">Maximum Search Depth</label>
+            <input ref="maxDepthInput" class="maxDepth" type="text" name="maxDepth" id="maxDepthInput"
+                :onchange="(event: Event) => filterMaxDepthInput(event)">
+        </div>
         <div class="searchPathContainer">
             <input ref="searchPathInput" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
             <div @click="openDialog">
@@ -53,6 +58,7 @@ import SearchJob from "@classes/SearchJob.class";
 import AppSettings from "@classes/AppSettings.class";
 import { dropdownOptions } from "@utils/SettingConstants"
 import { onMounted, ref } from "vue";
+import { Settings } from "@root/types/Settings.d";
 // import { homedir } from "@mocks/os-mock"// !DEBUGMODE
 import { homedir } from "os" //-- Production Import
 
@@ -65,6 +71,7 @@ let selectedRelinkMethod = ref(dropdownOptions.relinkMethod[0])
 const ignoreFileExtensionCheckbox = ref(null)
 const perfectMatchCheckbox = ref(null)
 const searchPathInput = ref(null)
+const maxDepthInput = ref(null)
 
 const page = Pages.MAIN
 
@@ -99,6 +106,22 @@ const searchPathListener = async (event: Event): Promise<void> => {
     })
 }
 
+const filterMaxDepthInput = async (event: Event): Promise<void> => {
+    const textInput: HTMLInputElement = (event.currentTarget! as HTMLInputElement);
+    const inputValue: string = textInput.value;
+
+    const regex: RegExp = /^\d*$/;
+
+    if (regex.test(inputValue)) {
+        const newSettings: Settings = {
+            maxDepth: parseInt(inputValue)
+        }
+        AppSettings.changeSetting(newSettings)
+    } else {
+        textInput.value = AppSettings.currentSettings.maxDepth!.toString()
+    }
+}
+
 onMounted(async () => {
     await AppSettings.refreshSettings()
     const settings = AppSettings.currentSettings;
@@ -109,6 +132,7 @@ onMounted(async () => {
 
     (ignoreFileExtensionCheckbox.value! as HTMLInputElement).checked = settings.ignoreFileExtensions!;
     (perfectMatchCheckbox.value! as HTMLInputElement).checked = settings.perfectMatch!;
+    (maxDepthInput.value! as HTMLInputElement).value = settings.maxDepth!.toString()
 
     let currentPath: string | undefined = settings.searchPath;
     if (currentPath === "") {
@@ -122,6 +146,7 @@ onMounted(async () => {
 .settingsGrid {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(3, 2rem);
     width: 100%;
     grid-gap: 0.6rem;
 
@@ -129,6 +154,7 @@ onMounted(async () => {
         text-align: right;
         flex-grow: 1;
     }
+
 
     .cbContainer {
         display: flex;
@@ -138,11 +164,34 @@ onMounted(async () => {
 
 }
 
+.maxDepthContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 0.6rem;
+
+    .maxDepth {
+        font-family: 'Quicksand', sans-serif;
+        background-color: hsl(0, 0%, 82%);
+        outline: none;
+        border: none;
+        height: 1.3rem;
+        color: black;
+        padding: 0.3rem;
+        font-size: 0.9rem;
+        flex-grow: 1;
+        width: 2rem;
+        text-align: center;
+        flex-grow: 0;
+    }
+}
+
 .searchPathContainer {
     display: flex;
     gap: 0.6rem;
     width: 100%;
-    align-items: center;
+    // align-items: flex-start;
 
     .searchPath {
         font-family: 'Quicksand', sans-serif;

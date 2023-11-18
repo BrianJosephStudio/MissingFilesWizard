@@ -8,4 +8,5 @@ export interface Settings {
     ignoreFileExtensions?: boolean
     perfectMatch?: boolean
     showHelpTips?: boolean
+    maxDepth?: number
 }

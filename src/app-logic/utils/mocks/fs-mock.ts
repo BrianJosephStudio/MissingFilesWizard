@@ -19,8 +19,9 @@ export const readFile = async (filePath: string, encoding: { encoding: string })
         "relinkMethod": 0,
         "ignoreFileExtensions": false,
         "perfectMatch": true,
-        "searchPath": false,
-        "showHelpTips": true
+        "searchPath": "C:/Users/Brian",
+        "showHelpTips": true,
+        "maxDepth": 12
     }`;
 };
 
