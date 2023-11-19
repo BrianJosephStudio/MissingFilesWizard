@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="maxDepthContainer">
-      <label for="maxDepth">Maximum Search Depth</label>
+      <label for="maxDepth">Search Depth</label>
       <input
         ref="maxDepthInput"
         class="maxDepth"
@@ -201,7 +201,8 @@ onMounted(async () => {
 
   h2 {
     text-align: right;
-    flex-grow: 1;
+    // flex-grow: 1;
+    margin: auto 0;
   }
 
   .cbContainer {
@@ -209,6 +210,7 @@ onMounted(async () => {
     justify-content: flex-end;
     align-items: center;
     gap: 0.4rem;
+    text-align: right;
   }
 }
 
@@ -220,12 +222,12 @@ onMounted(async () => {
   gap: 0.6rem;
 
   .maxDepth {
-    font-family: "Quicksand", sans-serif;
     @include input-backgroundColor;
+    @include input-color;
+    font-family: "Quicksand", sans-serif;
     outline: none;
     border: none;
     height: 0.8rem;
-    color: black;
     padding: 0.3rem;
     font-size: 0.7rem;
     flex-grow: 1;
@@ -238,7 +240,7 @@ onMounted(async () => {
 .searchPathContainer {
   display: flex;
   gap: 0.4rem;
-  width: 100%;
+  width: 96%;
   align-items: center;
 
   .searchPath {
@@ -286,6 +288,30 @@ onMounted(async () => {
   .unlinkButton {
     height: 1.6rem;
     padding: 0;
+  }
+}
+
+@media (max-width: 276px) {
+  .settingsGrid {
+    // grid-template-columns: repeat(1, auto);
+    grid-template-rows: repeat(3, 1.6rem);
+    grid-gap: 1rem 0.6rem;
+
+    h2{
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 190px) {
+  .settingsGrid {
+    grid-template-columns: repeat(1, auto);
+    grid-template-rows: repeat(6, 1.6rem);
+    grid-gap: 0.4rem;
+    text-justify: flex-end;
+    h2{
+      margin-top: auto;
+    }  
   }
 }
 </style>
