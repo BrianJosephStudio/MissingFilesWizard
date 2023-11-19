@@ -163,20 +163,56 @@ input[type="checkbox"]:checked {
   }
 }
 
-@media (max-height: 378px) {
+@media (max-height: 378px) and (min-width: 190px) {
   :root{
       font-size: 14px;
   }
 }
 
-@media (max-height: 310px) {
+@media (max-height: 430px) and (max-width: 190px) {
+  .container {
+    width: 90vw;
+  }
+  :root{
+      font-size: 14px;
+  }
+}
+
+@media (max-height: 310px) and (min-width: 190px) {
   :root{
     font-size: 12px;
   }
 }
 
-@media (max-height: 259px) {
+@media (max-height: 380px) and (max-width: 190px) {
+  .container {
+    width: 90vw;
+  }
+  :root{
+    font-size: 12px;
+  }
+}
+
+@media (max-height: 259px) and (min-width: 190px) {
   :root{
       font-size: 10px;
+  }
+}
+
+@media (max-height: 330px) and (max-width: 190px) {
+  .container {
+    width: 90vw;
+  }
+  :root{
+      font-size: 10px;
+  }
+}
+
+@media (max-height: 280px) and (max-width: 190px) {
+  .container {
+    width: 90vw;
+  }
+  :root{
+      font-size: 8px;
   }
 }
