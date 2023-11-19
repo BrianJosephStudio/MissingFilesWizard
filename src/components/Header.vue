@@ -38,7 +38,7 @@
     .logo {
         margin-bottom: 0.6rem;
         fill: white;
-        height: 2.8rem;
+        height: 2rem;
     }
 }
 </style>

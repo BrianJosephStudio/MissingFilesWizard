@@ -62,11 +62,13 @@
         type="text"
         @change="searchPathListener"
       />
-      <div @click="openDialog">
+      <div class="folderIconHolder" @click="openDialog">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
           class="folderIcon"
+          width="20"
+          height="20"
+          viewBox="0 0 16 16"
         >
           <path
             class="cls-1"
@@ -193,7 +195,7 @@ onMounted(async () => {
 .settingsGrid {
   display: grid;
   grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(3, 2rem);
+  grid-template-rows: repeat(3, 1.6rem);
   width: 100%;
   grid-gap: 0.6rem;
 
@@ -204,6 +206,7 @@ onMounted(async () => {
 
   .cbContainer {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 0.4rem;
   }
@@ -221,12 +224,12 @@ onMounted(async () => {
     @include input-backgroundColor;
     outline: none;
     border: none;
-    height: 1.3rem;
+    height: 0.8rem;
     color: black;
     padding: 0.3rem;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     flex-grow: 1;
-    width: 2rem;
+    width: 1rem;
     text-align: center;
     flex-grow: 0;
   }
@@ -234,9 +237,9 @@ onMounted(async () => {
 
 .searchPathContainer {
   display: flex;
-  gap: 0.6rem;
+  gap: 0.4rem;
   width: 100%;
-  // align-items: flex-start;
+  align-items: center;
 
   .searchPath {
     @include input-backgroundColor;
@@ -244,17 +247,22 @@ onMounted(async () => {
     font-family: "Quicksand", sans-serif;
     outline: none;
     border: none;
-    height: 1.3rem;
+    height: 0.8rem;
     padding: 0.3rem 1rem 0.3rem 0.3rem;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     width: 100%;
-    flex-grow: 1;
+    flex-grow: 10;
   }
-
-  .folderIcon {
-    @include folderIcon-fill;
-    height: 2rem;
-    cursor: pointer;
+  .folderIconHolder {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    
+    .folderIcon {
+      @include folderIcon-fill;
+      cursor: pointer;
+    }
   }
 }
 
@@ -272,11 +280,11 @@ onMounted(async () => {
   }
 
   .findFilesButton {
-    height: 3.4rem;
+    height: 2.4rem;
   }
 
   .unlinkButton {
-    height: 2.3rem;
+    height: 1.6rem;
     padding: 0;
   }
 }

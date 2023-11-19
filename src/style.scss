@@ -74,15 +74,15 @@ body {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 1.4rem;
   line-height: 1.1;
 }
 
 h2 {
   font-family: "Comfortaa", sans-serif;
-  // font-family: 'Quicksand', sans-serif;
-  font-size: 1rem;
-  font-weight: lighter;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
   line-height: 1.1;
   @include theme-color-1;
   // margin: 0;
@@ -94,7 +94,7 @@ button {
   border-radius: 3rem;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 1em;
+  font-size: 0.8rem;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
@@ -120,29 +120,27 @@ button {
 
 label {
   font-family: "Comfortaa", sans-serif;
-  // font-family: 'Quicksand', sans-serif;
-  font-size: 1rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.8rem;
   font-weight: 300;
 }
 
 input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
   appearance: none;
-  cursor: pointer;
   outline: none;
+  cursor: pointer;
 }
 
 /* Style unchecked checkboxes */
 input[type="checkbox"]:not(:checked) {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 /* Style checked checkboxes */
 input[type="checkbox"]:checked {
-  width: 20px;
-  height: 20px;
   border: 1px solid hsl(158, 0%, 100%);
   border-radius: 4px;
   @include checkbox-backgroundColor;
@@ -151,7 +149,7 @@ input[type="checkbox"]:checked {
 .container {
   display: flex;
   flex-direction: column;
-  width: 24rem;
+  width: 18rem;
   // height: 100%;
   gap: 0.6rem;
   align-items: center;
