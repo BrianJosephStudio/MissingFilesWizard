@@ -18,6 +18,8 @@
 <script setup lang="ts">
 </script>
 <style scoped lang="scss">
+@import '@root/src/style.scss';
+
 .header {
     display: flex;
     justify-content: center;
@@ -25,6 +27,7 @@
     width: 100%;
     height: 4rem;
     background-color: hsl(158, 46%, 57%);
+    @include theme-bg-2;
     gap: 0.4rem;
 
     h1 {

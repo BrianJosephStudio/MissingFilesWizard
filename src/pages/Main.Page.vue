@@ -1,239 +1,283 @@
 <template>
-    <div class="container" :data-page="page">
-        <div class="settingsGrid">
-            <h2>Get Missing Files in</h2>
-            <Dropdown :Id="'missingFilesPool'" :Name="'missingFilesPool'" :Options="dropdownOptions.missingFilesPool"
-                :Selected="selectedMissingPool">
-            </Dropdown>
-            <h2>Search for matching files in</h2>
-            <Dropdown :Id="'searchPool'" :Name="'searchPool'" :Options="dropdownOptions.searchPool"
-                :Selected="selectedSearchPool"></Dropdown>
-            <h2>Relink Method</h2>
-            <Dropdown :Id="'relinkMethod'" :Name="'relinkMethod'" :Options="dropdownOptions.relinkMethod"
-                :Selected="selectedRelinkMethod"></Dropdown>
-            <div class="cbContainer">
-                <label for="ignoreFileExt">Ignore File Extension</label>
-                <input ref="ignoreFileExtensionCheckbox" id="ignoreFileExt" type="checkbox" @change="ignoreFileExtListener">
-            </div>
-            <div class="cbContainer">
-                <label for="perfectMatch">Perfect match</label>
-                <input ref="perfectMatchCheckbox" id="perfectMatch" type="checkbox" checked @change="perfectMatchListener">
-            </div>
-        </div>
-        <div class="maxDepthContainer">
-            <label for="maxDepth">Maximum Search Depth</label>
-            <input ref="maxDepthInput" class="maxDepth" type="text" name="maxDepth" id="maxDepthInput"
-                @change="filterMaxDepthInput">
-        </div>
-        <div class="searchPathContainer">
-            <input ref="searchPathInput" id="searchPath" class="searchPath" type="text" @change="searchPathListener">
-            <div @click="openDialog">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="folderIcon">
-                    <path class="cls-1"
-                        d="m6.35,2.35v1.46H1.24c-.29,0-.52.23-.52.52v-1.98c0-.2.16-.35.35-.35h4.93c.19,0,.35.15.35.35Z" />
-                    <path class="cls-1"
-                        d="m15.28,4.65v8.52c0,.28-.23.51-.52.51H1.24c-.29,0-.52-.23-.52-.51V4.65c0-.29.23-.52.52-.52h13.52c.29,0,.52.23.52.52Z" />
-                </svg>
-            </div>
-        </div>
-        <div class="buttons">
-            <button class="findFilesButton" @click="searchFiles">
-                Find Files
-            </button>
-            <button class="unlinkButton" @click="extendScript.unlinkFiles">
-                Unlink Files
-            </button>
-            <!-- <button @click="printSettings">
+  <div class="container" :data-page="page">
+    <div class="settingsGrid">
+      <h2>Get Missing Files in</h2>
+      <Dropdown
+        :Id="'missingFilesPool'"
+        :Name="'missingFilesPool'"
+        :Options="dropdownOptions.missingFilesPool"
+        :Selected="selectedMissingPool"
+      >
+      </Dropdown>
+      <h2>Search for matching files in</h2>
+      <Dropdown
+        :Id="'searchPool'"
+        :Name="'searchPool'"
+        :Options="dropdownOptions.searchPool"
+        :Selected="selectedSearchPool"
+      ></Dropdown>
+      <h2>Relink Method</h2>
+      <Dropdown
+        :Id="'relinkMethod'"
+        :Name="'relinkMethod'"
+        :Options="dropdownOptions.relinkMethod"
+        :Selected="selectedRelinkMethod"
+      ></Dropdown>
+      <div class="cbContainer">
+        <label for="ignoreFileExt">Ignore File Extension</label>
+        <input
+          ref="ignoreFileExtensionCheckbox"
+          id="ignoreFileExt"
+          type="checkbox"
+          @change="ignoreFileExtListener"
+        />
+      </div>
+      <div class="cbContainer">
+        <label for="perfectMatch">Perfect match</label>
+        <input
+          ref="perfectMatchCheckbox"
+          id="perfectMatch"
+          type="checkbox"
+          checked
+          @change="perfectMatchListener"
+        />
+      </div>
+    </div>
+    <div class="maxDepthContainer">
+      <label for="maxDepth">Maximum Search Depth</label>
+      <input
+        ref="maxDepthInput"
+        class="maxDepth"
+        type="text"
+        name="maxDepth"
+        id="maxDepthInput"
+        @change="filterMaxDepthInput"
+      />
+    </div>
+    <div class="searchPathContainer">
+      <input
+        ref="searchPathInput"
+        id="searchPath"
+        class="searchPath"
+        type="text"
+        @change="searchPathListener"
+      />
+      <div @click="openDialog">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          class="folderIcon"
+        >
+          <path
+            class="cls-1"
+            d="m6.35,2.35v1.46H1.24c-.29,0-.52.23-.52.52v-1.98c0-.2.16-.35.35-.35h4.93c.19,0,.35.15.35.35Z"
+          />
+          <path
+            class="cls-1"
+            d="m15.28,4.65v8.52c0,.28-.23.51-.52.51H1.24c-.29,0-.52-.23-.52-.51V4.65c0-.29.23-.52.52-.52h13.52c.29,0,.52.23.52.52Z"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="findFilesButton" @click="searchFiles">Find Files</button>
+      <button class="unlinkButton" @click="extendScript.unlinkFiles">
+        Unlink Files
+      </button>
+      <!-- <button @click="printSettings">
                 Print Settings
             </button> -->
-        </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { Pages } from "@root/types/Pages.d"
-import Dropdown from "@components/DropDown.vue"
+import { Pages } from "@root/types/Pages.d";
+import Dropdown from "@components/DropDown.vue";
 import ExtendScriptAPI from "@classes/ExtendScriptAPI.class";
 import SearchJob from "@classes/SearchJob.class";
 import AppSettings from "@classes/AppSettings.class";
-import { dropdownOptions } from "@utils/SettingConstants"
+import { dropdownOptions } from "@utils/SettingConstants";
 import { onMounted, ref } from "vue";
 import { Settings } from "@root/types/Settings.d";
 // import { homedir } from "@mocks/os-mock"// !DEBUGMODE
 import { homedir } from "os" //-- Production Import
 
-const extendScript = new ExtendScriptAPI()
+const extendScript = new ExtendScriptAPI();
 
-let selectedMissingPool = ref(dropdownOptions.missingFilesPool[0])
-let selectedSearchPool = ref(dropdownOptions.searchPool[0])
-let selectedRelinkMethod = ref(dropdownOptions.relinkMethod[0])
+let selectedMissingPool = ref(dropdownOptions.missingFilesPool[0]);
+let selectedSearchPool = ref(dropdownOptions.searchPool[0]);
+let selectedRelinkMethod = ref(dropdownOptions.relinkMethod[0]);
 
-const ignoreFileExtensionCheckbox = ref(null)
-const perfectMatchCheckbox = ref(null)
-const searchPathInput = ref(null)
-const maxDepthInput = ref(null)
+const ignoreFileExtensionCheckbox = ref(null);
+const perfectMatchCheckbox = ref(null);
+const searchPathInput = ref(null);
+const maxDepthInput = ref(null);
 
-const page = Pages.MAIN
+const page = Pages.MAIN;
 
 const searchFiles = async () => {
-    const searchJob = new SearchJob()
-    searchJob.start()
-}
+  const searchJob = new SearchJob();
+  searchJob.start();
+};
 
 const openDialog = async (event: MouseEvent) => {
-    if (event.altKey) {
-        extendScript.setProjectPath()
-        return
-    }
-    extendScript.openDialog()
-}
+  if (event.altKey) {
+    extendScript.setProjectPath();
+    return;
+  }
+  extendScript.openDialog();
+};
 
 const ignoreFileExtListener = async (event: Event): Promise<void> => {
-    const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
-    AppSettings.changeSetting({ ignoreFileExtensions: checkedStatus })
-}
+  const checkedStatus = (event.currentTarget! as HTMLInputElement).checked;
+  AppSettings.changeSetting({ ignoreFileExtensions: checkedStatus });
+};
 
 const perfectMatchListener = async (event: Event): Promise<void> => {
-    const checkedStatus = (event.currentTarget! as HTMLInputElement).checked
-    AppSettings.changeSetting({ perfectMatch: checkedStatus })
-}
+  const checkedStatus = (event.currentTarget! as HTMLInputElement).checked;
+  AppSettings.changeSetting({ perfectMatch: checkedStatus });
+};
 
 const searchPathListener = async (event: Event): Promise<void> => {
-    const target = event.currentTarget as HTMLInputElement
-    const value = target!.value.replace(/\\/g, "/")
-    AppSettings.changeSetting({
-        searchPath: value
-    })
-}
+  const target = event.currentTarget as HTMLInputElement;
+  const value = target!.value.replace(/\\/g, "/");
+  AppSettings.changeSetting({
+    searchPath: value,
+  });
+};
 
 const filterMaxDepthInput = async (event: Event): Promise<void> => {
-    const textInput: HTMLInputElement = (event.currentTarget! as HTMLInputElement);
-    const inputValue: string = textInput.value;
+  const textInput: HTMLInputElement = event.currentTarget! as HTMLInputElement;
+  const inputValue: string = textInput.value;
 
-    const regex: RegExp = /^\d*$/;
+  const regex: RegExp = /^\d*$/;
 
-    if (regex.test(inputValue)) {
-        const newSettings: Settings = {
-            maxDepth: parseInt(inputValue)
-        }
-        AppSettings.changeSetting(newSettings)
-    } else {
-        textInput.value = AppSettings.currentSettings.maxDepth!.toString()
-    }
-}
+  if (regex.test(inputValue)) {
+    const newSettings: Settings = {
+      maxDepth: parseInt(inputValue),
+    };
+    AppSettings.changeSetting(newSettings);
+  } else {
+    textInput.value = AppSettings.currentSettings.maxDepth!.toString();
+  }
+};
 
 onMounted(async () => {
-    await AppSettings.refreshSettings()
-    const settings = AppSettings.currentSettings;
+  await AppSettings.refreshSettings();
+  const settings = AppSettings.currentSettings;
 
-    selectedMissingPool.value = dropdownOptions.missingFilesPool[settings.missingFilesPool!];
-    selectedSearchPool.value = dropdownOptions.searchPool[settings.searchPool!];
-    selectedRelinkMethod.value = dropdownOptions.relinkMethod[settings.relinkMethod!];
+  selectedMissingPool.value =
+    dropdownOptions.missingFilesPool[settings.missingFilesPool!];
+  selectedSearchPool.value = dropdownOptions.searchPool[settings.searchPool!];
+  selectedRelinkMethod.value =
+    dropdownOptions.relinkMethod[settings.relinkMethod!];
 
-    (ignoreFileExtensionCheckbox.value! as HTMLInputElement).checked = settings.ignoreFileExtensions!;
-    (perfectMatchCheckbox.value! as HTMLInputElement).checked = settings.perfectMatch!;
-    (maxDepthInput.value! as HTMLInputElement).value = settings.maxDepth!.toString()
+  (ignoreFileExtensionCheckbox.value! as HTMLInputElement).checked =
+    settings.ignoreFileExtensions!;
+  (perfectMatchCheckbox.value! as HTMLInputElement).checked =
+    settings.perfectMatch!;
+  (maxDepthInput.value! as HTMLInputElement).value =
+    settings.maxDepth!.toString();
 
-    let currentPath: string | undefined = settings.searchPath;
-    if (currentPath === "") {
-        currentPath = homedir().replace(/\\/g, "/")
-    };
-    (searchPathInput.value! as HTMLInputElement).value = currentPath!
-})
-
+  let currentPath: string | undefined = settings.searchPath;
+  if (currentPath === "") {
+    currentPath = homedir().replace(/\\/g, "/");
+  }
+  (searchPathInput.value! as HTMLInputElement).value = currentPath!;
+});
 </script>
 <style lang="scss">
+@import "@root/src/style.scss";
+
 .settingsGrid {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-template-rows: repeat(3, 2rem);
-    width: 100%;
-    grid-gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(3, 2rem);
+  width: 100%;
+  grid-gap: 0.6rem;
 
-    h2 {
-        text-align: right;
-        flex-grow: 1;
-    }
+  h2 {
+    text-align: right;
+    flex-grow: 1;
+  }
 
-
-    .cbContainer {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-    }
-
+  .cbContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
 }
 
 .maxDepthContainer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.6rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
 
-    .maxDepth {
-        font-family: 'Quicksand', sans-serif;
-        background-color: hsl(0, 0%, 82%);
-        outline: none;
-        border: none;
-        height: 1.3rem;
-        color: black;
-        padding: 0.3rem;
-        font-size: 0.9rem;
-        flex-grow: 1;
-        width: 2rem;
-        text-align: center;
-        flex-grow: 0;
-    }
+  .maxDepth {
+    font-family: "Quicksand", sans-serif;
+    @include theme-bg-4;
+    outline: none;
+    border: none;
+    height: 1.3rem;
+    color: black;
+    padding: 0.3rem;
+    font-size: 0.9rem;
+    flex-grow: 1;
+    width: 2rem;
+    text-align: center;
+    flex-grow: 0;
+  }
 }
 
 .searchPathContainer {
-    display: flex;
-    gap: 0.6rem;
+  display: flex;
+  gap: 0.6rem;
+  width: 100%;
+  // align-items: flex-start;
+
+  .searchPath {
+    font-family: "Quicksand", sans-serif;
+    @include theme-bg-4;
+    outline: none;
+    border: none;
+    height: 1.3rem;
+    color: black;
+    padding: 0.3rem 1rem 0.3rem 0.3rem;
+    font-size: 0.9rem;
     width: 100%;
-    // align-items: flex-start;
+    flex-grow: 1;
+  }
 
-    .searchPath {
-        font-family: 'Quicksand', sans-serif;
-        background-color: hsl(0, 0%, 82%);
-        outline: none;
-        border: none;
-        height: 1.3rem;
-        color: black;
-        padding: 0.3rem 1rem 0.3rem 0.3rem;
-        font-size: 0.9rem;
-        width: 100%;
-        flex-grow: 1;
-    }
-
-    .folderIcon {
-        fill: hsl(158, 46%, 57%);
-        height: 2rem;
-        cursor: pointer;
-    }
-
+  .folderIcon {
+    @include theme-fill-1;
+    height: 2rem;
+    cursor: pointer;
+  }
 }
 
 .buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  button {
+    color: white;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    
-    button {
-        color: white;
-        width: 100%;
-        font-family: 'Comfortaa', sans-serif;
-        outline: none;
-    }
+    font-family: "Comfortaa", sans-serif;
+    outline: none;
+  }
 
-    .findFilesButton {
-        height: 3.4rem;
-    }
+  .findFilesButton {
+    height: 3.4rem;
+  }
 
-    .unlinkButton {
-        height: 2.3rem;
-        padding: 0;
-    }
+  .unlinkButton {
+    height: 2.3rem;
+    padding: 0;
+  }
 }
 </style>

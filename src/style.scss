@@ -1,3 +1,34 @@
+@mixin theme-color-1 {
+  color: white;
+}
+
+@mixin theme-color-2 {
+  color: black;
+}
+@mixin theme-bg-1 {
+  background-color: #27233a;
+}
+
+@mixin theme-bg-2 {
+  background-color: #505168;
+}
+
+@mixin theme-bg-3 {
+  background-color: #ba526f;
+}
+
+@mixin theme-bg-4 {
+  background-color: #ffffff;
+}
+
+@mixin theme-bg-5 {
+  background-color: #e4ad37;
+}
+
+@mixin theme-fill-1 {
+  fill: #ebb73f;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,7 +36,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: hsl(0, 0%, 87%);
+  background-color: #f7f0f5;
+  @include theme-bg-1;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -38,12 +70,12 @@ h1 {
 }
 
 h2 {
-  font-family: 'Comfortaa', sans-serif;
+  font-family: "Comfortaa", sans-serif;
   // font-family: 'Quicksand', sans-serif;
   font-size: 1rem;
   font-weight: lighter;
   line-height: 1.1;
-  color: black;
+  @include theme-color-1;
   // margin: 0;
 }
 
@@ -54,7 +86,9 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: hsl(158, 46%, 57%);
+  // background-color: hsl(158, 46%, 57%);
+  background-color: #5c5552;
+  @include theme-bg-3;
   cursor: pointer;
   transition: border-color 0.25s;
   width: 12rem;
@@ -86,11 +120,11 @@ button:focus-visible {
 }
 
 label {
-  font-family: 'Comfortaa', sans-serif;
+  font-family: "Comfortaa", sans-serif;
   // font-family: 'Quicksand', sans-serif;
   font-size: 1rem;
   font-weight: 300;
-  color: black;
+  @include theme-bg-1;
 }
 
 input[type="checkbox"] {
@@ -115,7 +149,7 @@ input[type="checkbox"]:checked {
   border: 1px solid hsl(158, 0%, 100%);
   border-radius: 4px;
   /* Change the border color for checked */
-  background-color: hsl(158, 46%, 57%);
+  @include theme-bg-1;
   /* Change the background color for checked */
 }
 
