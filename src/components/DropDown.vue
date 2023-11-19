@@ -34,22 +34,19 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
+@import '@root/src/style.scss';
+
 .select {
     // font-family: 'Comfortaa', sans-serif;
     font-family: 'Quicksand', sans-serif;
-    text-align: center;
-    background-color: hsl(158, 46%, 57%);
+    // background-color: hsl(158, 46%, 57%);
+    @include dropdown-backgroundColor;
+    @include input-color;
     border-radius: 0.3rem;
     border: none;
     outline: none;
+    text-align: center;
     font-size: 1rem;
     cursor: pointer;
-
-    .option {
-
-        &:hover {
-            background-color: hsl(330, 45%, 72%);
-        }
-    }
 }
 </style>
