@@ -40,8 +40,8 @@ onMounted(async () => {
     // font-family: 'Comfortaa', sans-serif;
     font-family: 'Quicksand', sans-serif;
     // background-color: hsl(158, 46%, 57%);
-    @include theme-bg-4;
-    @include theme-color-2;
+    @include dropdown-backgroundColor;
+    @include input-color;
     border-radius: 0.3rem;
     border: none;
     outline: none;

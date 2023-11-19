@@ -218,7 +218,7 @@ onMounted(async () => {
 
   .maxDepth {
     font-family: "Quicksand", sans-serif;
-    @include theme-bg-4;
+    @include input-backgroundColor;
     outline: none;
     border: none;
     height: 1.3rem;
@@ -239,12 +239,12 @@ onMounted(async () => {
   // align-items: flex-start;
 
   .searchPath {
+    @include input-backgroundColor;
+    @include input-color;
     font-family: "Quicksand", sans-serif;
-    @include theme-bg-4;
     outline: none;
     border: none;
     height: 1.3rem;
-    color: black;
     padding: 0.3rem 1rem 0.3rem 0.3rem;
     font-size: 0.9rem;
     width: 100%;
@@ -252,7 +252,7 @@ onMounted(async () => {
   }
 
   .folderIcon {
-    @include theme-fill-1;
+    @include folderIcon-fill;
     height: 2rem;
     cursor: pointer;
   }
