@@ -37,6 +37,10 @@ export default class ExtendScriptAPI {
         switch (settings.missingFilesPool) {
             case MISSINGFILESPOOL.PROJECT:
                 missingFilePaths = await this.getMissingFilesInProject()
+                break;
+            case MISSINGFILESPOOL.SELECTION:
+                missingFilePaths = await this.getMissingFilesInSelection()
+                break;
         }
         return missingFilePaths
     }
@@ -45,6 +49,22 @@ export default class ExtendScriptAPI {
         return new Promise<MissingItem[]>((resolve, reject) => {
             const script = `getUrisAndIdsFromFootageItemArray(
                 getMissingFilesInProject()
+            )`;
+            this.cs?.evalScript(script, (response: string) => {
+                try {
+                    const missingFilePaths = JSON.parse(response) as MissingItem[];
+                    resolve(missingFilePaths);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    private async getMissingFilesInSelection(): Promise<MissingItem[]> {
+        return new Promise<MissingItem[]>((resolve, reject) => {
+            const script = `getUrisAndIdsFromFootageItemArray(
+                getMissingFilesInSelection()
             )`;
             this.cs?.evalScript(script, (response: string) => {
                 try {
