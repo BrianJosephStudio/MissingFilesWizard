@@ -16,7 +16,12 @@ function getMissingFilesInProject(): FootageItem[] {
     return missingItemsInProject
 }
 
-function missingInItemArray(itemArray: FootageItem[]): FootageItem[] {
+function getMissingFilesInSelection(): FootageItem[] {
+    var missingItemsInSelection: FootageItem[] = getMissingFilesInItemArray((app.project.selection as FootageItem[]));
+    return missingItemsInSelection
+}
+
+function getMissingFilesInItemArray(itemArray: FootageItem[]): FootageItem[] {
     var missingItemsInSelection: FootageItem[] = [];
 
     for (let i = 0; i < itemArray.length; i++) {
@@ -33,11 +38,15 @@ function missingInItemArray(itemArray: FootageItem[]): FootageItem[] {
             missingItemsInSelection.push(currentItem);
         }
         else if (currentItem.typeName === 'Composition') {
+            //TODO: Test missingInComposition
+            continue
             const missingInComp = missingInComposition(currentItem);
             missingItemsInSelection.concat(missingInComp)
         }
         else if (currentItem.typeName == 'Folder') {
-            const missingInFolder = missingInItemArray(currentItem)
+            //TODO: Test getMissingFilesInItemArray
+            continue
+            const missingInFolder = getMissingFilesInItemArray(currentItem)
             missingItemsInSelection.concat(missingInFolder)
         }
     }
@@ -52,6 +61,8 @@ function setSelectionToMissing(itemSelection: FootageItem[]): void {
 
     for (let i = 0; i < itemSelection.length; i++) {
         const currentItem = itemSelection[i]
+
+        if(currentItem.footageMissing){continue}
 
         let myDur: number;
 
@@ -70,7 +81,7 @@ function setSelectionToMissing(itemSelection: FootageItem[]): void {
 function removeMissingFiles(itemSelection: any[], onlyNonUsed: boolean) {
     app.beginUndoGroup('Set Selection to Missing');
 
-    const missingInSelection = missingInItemArray(itemSelection)
+    const missingInSelection = getMissingFilesInItemArray(itemSelection)
 
     for (let i = 0; i < missingInSelection.length; i++) {
         const currentItem = missingInSelection[i]
