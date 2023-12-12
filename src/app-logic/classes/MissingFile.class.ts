@@ -5,6 +5,7 @@ import { SearchResults } from "@classes/SearchResults.class";
 // import path from "@mocks/path-mock" //!DEBUGMODE
 import path from "path" //-- Production Import
 import Reconnector from "@classes/Reconnector.class";
+import AppSettings from "@classes/AppSettings.class";
 
 export class MissingFile {
     public file: SystemFile
@@ -37,5 +38,13 @@ export class MissingFile {
         const reconnector = new Reconnector(this, searchResults)
         const reconnected: boolean = await reconnector.reconnect()
         this.found = reconnected
+    }
+
+    isMatch(systemFile: SystemFile): boolean {
+        // TODO: Rework to take ignoreExt and perfectMatch into consideration
+        if (systemFile.name === this.file.name) {
+            return true
+        }
+        return false
     }
 }
