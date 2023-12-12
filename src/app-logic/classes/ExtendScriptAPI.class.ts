@@ -6,6 +6,7 @@ import { MISSINGFILESPOOL } from "../utils/SettingConstants";
 import { Settings } from "@root/types/Settings";
 import { MissingItem } from "@root/types/MissingItem";
 import { Logger } from "@classes/Logger.class";
+import { ProjectItem } from "@root/types/ProjectItem";
 
 export enum SCRIPTS {
 
@@ -89,6 +90,22 @@ export default class ExtendScriptAPI {
                 try {
                     const missingFilePaths = JSON.parse(response) as MissingItem[];
                     resolve(missingFilePaths);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    public async getAllProjectFootageItems(): Promise<ProjectItem[]> {
+        return new Promise<ProjectItem[]>((resolve, reject) => {
+            const script = `getUrisAndIdsFromFootageItemArray(
+                getAllProjectFootageItems()
+            )`;
+            this.cs?.evalScript(script, (response: string) => {
+                try {
+                    const systemFiles = JSON.parse(response) as ProjectItem[];
+                    resolve(systemFiles);
                 } catch (error) {
                     reject(error);
                 }

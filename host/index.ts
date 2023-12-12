@@ -1,4 +1,6 @@
 import { MissingItem } from "@root/types/MissingItem";
+import { SystemFile } from "@root/types/SystemFile";
+import { ProjectItem } from "@root/types/ProjectItem";
 
 function getMissingFilesInProject(): FootageItem[] {
     var missingItemsInProject: FootageItem[] = [];
@@ -57,7 +59,7 @@ function getMissingFilesInItemArray(itemArray: FootageItem[]): FootageItem[] {
 
 function convertItemCollectionToItemArray(itemCollection: ItemCollection): Item[] {
     const itemArray = []
-    for(var i = 1; i <= itemCollection.length; i++) {
+    for (var i = 1; i <= itemCollection.length; i++) {
         itemArray.push(itemCollection[i])
     }
     return itemArray
@@ -72,7 +74,7 @@ function setSelectionToMissing(itemSelection: FootageItem[]): void {
     for (let i = 0; i < itemSelection.length; i++) {
         const currentItem = itemSelection[i]
 
-        if(currentItem.footageMissing){continue}
+        if (currentItem.footageMissing) { continue }
 
         let myDur: number;
 
@@ -121,9 +123,9 @@ function getMissingItemsInComposition(compItem: CompItem): FootageItem[] {
         var currentItem = (compItem.layer(i) as AVLayer).source;
         if (!currentItem) { continue };
         if ((
-                (currentItem as FootageItem).mainSource instanceof FileSource ||
-                (currentItem as FootageItem).mainSource instanceof PlaceholderSource
-            ) && (currentItem as FootageItem).footageMissing
+            (currentItem as FootageItem).mainSource instanceof FileSource ||
+            (currentItem as FootageItem).mainSource instanceof PlaceholderSource
+        ) && (currentItem as FootageItem).footageMissing
         ) {
             missingItemsInComp.push((currentItem as FootageItem))
         };
@@ -131,7 +133,7 @@ function getMissingItemsInComposition(compItem: CompItem): FootageItem[] {
     return missingItemsInComp
 }
 
-function getUrisAndIdsFromFootageItemArray(itemArray: FootageItem[]): string {
+function getSystemFilesFromFootageItemArray(itemArray: FootageItem[]): string {
     const uriArray: MissingItem[] = []
 
     for (let i = 0; i < itemArray.length; i++) {
@@ -145,6 +147,23 @@ function getUrisAndIdsFromFootageItemArray(itemArray: FootageItem[]): string {
         })
     }
     return stringifyOutput(uriArray)
+}
+
+function getAllProjectFootageItems(): FootageItem[] {
+    const projectFootageItems: FootageItem[] = []
+    for (var i = 1; i <= app.project.numItems; i++) {
+        const currentItem = app.project.item(i) as FootageItem;
+        if (!currentItem.mainSource) { continue };
+        if (currentItem.name === "Pearl.png") {
+        }
+        if (
+            !((currentItem.mainSource as any) instanceof FileSource) ||
+            !currentItem.file ||
+            currentItem.footageMissing
+        ) { continue }
+        projectFootageItems.push(currentItem)
+    };
+    return projectFootageItems
 }
 
 function reconnectMissingFile(id: number, newUrl: string): string {
