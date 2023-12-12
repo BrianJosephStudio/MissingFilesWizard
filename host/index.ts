@@ -16,7 +16,17 @@ function getMissingFilesInProject(): FootageItem[] {
     return missingItemsInProject
 }
 
-function missingInItemArray(itemArray: FootageItem[]): FootageItem[] {
+function getMissingFilesInSelection(): FootageItem[] {
+    var missingItemsInSelection: FootageItem[] = getMissingFilesInItemArray((app.project.selection as FootageItem[]));
+    return missingItemsInSelection
+}
+
+function getMissingFilesInActiveComp(): FootageItem[] {
+    app.activeViewer.setActive()
+    return getMissingItemsInComposition((app.project.activeItem as CompItem))
+}
+
+function getMissingFilesInItemArray(itemArray: FootageItem[]): FootageItem[] {
     var missingItemsInSelection: FootageItem[] = [];
 
     for (let i = 0; i < itemArray.length; i++) {
@@ -33,15 +43,24 @@ function missingInItemArray(itemArray: FootageItem[]): FootageItem[] {
             missingItemsInSelection.push(currentItem);
         }
         else if (currentItem.typeName === 'Composition') {
-            const missingInComp = missingInComposition(currentItem);
-            missingItemsInSelection.concat(missingInComp)
+            const missingInComp = getMissingItemsInComposition(currentItem);
+            missingItemsInSelection = missingItemsInSelection.concat(missingInComp)
         }
         else if (currentItem.typeName == 'Folder') {
-            const missingInFolder = missingInItemArray(currentItem)
-            missingItemsInSelection.concat(missingInFolder)
+            const folderItems = convertItemCollectionToItemArray(currentItem.items)
+            const missingInFolder = getMissingFilesInItemArray((folderItems as FootageItem[]))
+            missingItemsInSelection = missingItemsInSelection.concat(missingInFolder)
         }
     }
     return missingItemsInSelection
+}
+
+function convertItemCollectionToItemArray(itemCollection: ItemCollection): Item[] {
+    const itemArray = []
+    for(var i = 1; i <= itemCollection.length; i++) {
+        itemArray.push(itemCollection[i])
+    }
+    return itemArray
 }
 
 function setSelectionToMissing(itemSelection: FootageItem[]): void {
@@ -52,6 +71,8 @@ function setSelectionToMissing(itemSelection: FootageItem[]): void {
 
     for (let i = 0; i < itemSelection.length; i++) {
         const currentItem = itemSelection[i]
+
+        if(currentItem.footageMissing){continue}
 
         let myDur: number;
 
@@ -70,7 +91,7 @@ function setSelectionToMissing(itemSelection: FootageItem[]): void {
 function removeMissingFiles(itemSelection: any[], onlyNonUsed: boolean) {
     app.beginUndoGroup('Set Selection to Missing');
 
-    const missingInSelection = missingInItemArray(itemSelection)
+    const missingInSelection = getMissingFilesInItemArray(itemSelection)
 
     for (let i = 0; i < missingInSelection.length; i++) {
         const currentItem = missingInSelection[i]
@@ -93,23 +114,21 @@ function removeMissingFiles(itemSelection: any[], onlyNonUsed: boolean) {
 
 };
 
-function missingInComposition(compItem: CompItem): FootageItem[] {
-    const missingInComp = [];
+function getMissingItemsInComposition(compItem: CompItem): FootageItem[] {
+    const missingItemsInComp = [];
 
     for (var i = 1; i <= compItem.numLayers; i++) {
         var currentItem = (compItem.layer(i) as AVLayer).source;
         if (!currentItem) { continue };
-        if (
-            (
-                (
-                    currentItem as FootageItem).mainSource instanceof FileSource ||
-                (currentItem as FootageItem).mainSource instanceof PlaceholderSource) &&
-            (currentItem as FootageItem).footageMissing
+        if ((
+                (currentItem as FootageItem).mainSource instanceof FileSource ||
+                (currentItem as FootageItem).mainSource instanceof PlaceholderSource
+            ) && (currentItem as FootageItem).footageMissing
         ) {
-            missingInComp.push((currentItem as FootageItem))
+            missingItemsInComp.push((currentItem as FootageItem))
         };
     };
-    return missingInComp
+    return missingItemsInComp
 }
 
 function getUrisAndIdsFromFootageItemArray(itemArray: FootageItem[]): string {
