@@ -51,7 +51,7 @@ export default class ExtendScriptAPI {
 
     private async getMissingFilesInProject(): Promise<MissingItem[]> {
         return new Promise<MissingItem[]>((resolve, reject) => {
-            const script = `getUrisAndIdsFromFootageItemArray(
+            const script = `getSystemFilesFromFootageItemArray(
                 getMissingFilesInProject()
             )`;
             this.cs?.evalScript(script, (response: string) => {
@@ -67,7 +67,7 @@ export default class ExtendScriptAPI {
 
     private async getMissingFilesInSelection(): Promise<MissingItem[]> {
         return new Promise<MissingItem[]>((resolve, reject) => {
-            const script = `getUrisAndIdsFromFootageItemArray(
+            const script = `getSystemFilesFromFootageItemArray(
                 getMissingFilesInSelection()
             )`;
             this.cs?.evalScript(script, (response: string) => {
@@ -83,7 +83,7 @@ export default class ExtendScriptAPI {
 
     private async getMissingFilesInActiveComp(): Promise<MissingItem[]> {
         return new Promise<MissingItem[]>((resolve, reject) => {
-            const script = `getUrisAndIdsFromFootageItemArray(
+            const script = `getSystemFilesFromFootageItemArray(
                 getMissingFilesInActiveComp()
             )`;
             this.cs?.evalScript(script, (response: string) => {
@@ -99,7 +99,7 @@ export default class ExtendScriptAPI {
 
     public async getAllProjectFootageItems(): Promise<ProjectItem[]> {
         return new Promise<ProjectItem[]>((resolve, reject) => {
-            const script = `getUrisAndIdsFromFootageItemArray(
+            const script = `getSystemFilesFromFootageItemArray(
                 getAllProjectFootageItems()
             )`;
             this.cs?.evalScript(script, (response: string) => {
