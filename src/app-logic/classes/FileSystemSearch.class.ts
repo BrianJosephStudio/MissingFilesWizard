@@ -39,10 +39,10 @@ export class FileSystemSearch {
                         await this.search(missingFile, { uri: filePath.uri! }, currentDepth + 1, maxDepth, results)
                     } else if (fsFile === missingFile.name) {
                         results.add(filePath)
+                        missingFile.found = true
                         return //-- 'return' limits 'Results' to only one match, if you want to find more potential matches; change to 'break'
                     }
                 } catch (e) {
-                    alert(e)
                     return
                 }
             })
