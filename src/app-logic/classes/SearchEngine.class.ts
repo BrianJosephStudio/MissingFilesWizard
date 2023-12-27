@@ -16,9 +16,8 @@ export class SearchEngine {
         this.maxDepth = AppSettings.currentSettings.maxDepth!
         this.fsSearch = new FileSystemSearch()
         this.projectSearch = new ProjectSearch()
-
     }
-    //@ts-ignore
+
     public async search<R = SearchResults | SearchError | undefined>(
         missingFile: MissingFile
     ) {
@@ -29,8 +28,12 @@ export class SearchEngine {
             case SEARCHPOOL.SYSTEM:
                 await this.fsSearch.search(missingFile, { uri: settings.searchPath! }, 0, this.maxDepth, results);
                 break;
-            case SEARCHPOOL.PROJECT :
+            case SEARCHPOOL.PROJECT:
                 await this.projectSearch.search(missingFile, results);
+                break;
+            case SEARCHPOOL.HYBRID:
+                await this.projectSearch.search(missingFile, results);
+                await this.fsSearch.search(missingFile, { uri: settings.searchPath! }, 0, this.maxDepth, results);
                 break;
         }
         return results
