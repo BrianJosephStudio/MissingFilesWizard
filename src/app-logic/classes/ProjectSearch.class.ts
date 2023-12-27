@@ -17,10 +17,12 @@ export class ProjectSearch {
         missingFile: MissingFile,
         results: SearchResults,
     ) {
+        if (missingFile.found) { return }
         await this.syncProjectFootageItems()
         this.projectItems?.forEach((projectItem: SystemFile) => {
             if (missingFile.isMatch(projectItem)) {
                 results.add(projectItem)
+                missingFile.found = true
                 return //-- 'return' limits 'Results' to only one match, if you want to find more potential matches; change to 'break'
             }
         })
