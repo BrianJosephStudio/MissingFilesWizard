@@ -163,13 +163,7 @@ input[type="checkbox"]:checked {
   }
 }
 
-@media (max-height: 378px) and (min-width: 190px) {
-  :root{
-      font-size: 14px;
-  }
-}
-
-@media (max-height: 430px) and (max-width: 190px) {
+@media (max-height: 415px) and (max-width: 190px) {
   .container {
     width: 90vw;
   }
@@ -178,13 +172,19 @@ input[type="checkbox"]:checked {
   }
 }
 
-@media (max-height: 310px) and (min-width: 190px) {
+@media (max-height: 325px) and (min-width: 190px) and (max-width: 300px) {
   :root{
-    font-size: 12px;
+      font-size: 14px;
   }
 }
 
-@media (max-height: 380px) and (max-width: 190px) {
+@media (max-height: 310px) and (min-width: 300px) {
+  :root{
+      font-size: 14px;
+  }
+}
+
+@media (max-height: 360px) and (max-width: 190px) {
   .container {
     width: 90vw;
   }
@@ -193,13 +193,25 @@ input[type="checkbox"]:checked {
   }
 }
 
-@media (max-height: 259px) and (min-width: 190px) {
+@media (max-height: 290px) and (max-width: 300px) {
+  :root{
+    font-size: 12px;
+  }
+}
+
+@media (max-height: 240px) and (min-width: 190px) and (max-width: 300px) {
   :root{
       font-size: 10px;
   }
 }
 
-@media (max-height: 330px) and (max-width: 190px) {
+@media (max-height: 250px) and (min-width: 300px) {
+  :root{
+      font-size: 10px;
+  }
+}
+
+@media (max-height: 310px) and (max-width: 190px) {
   .container {
     width: 90vw;
   }
@@ -208,7 +220,7 @@ input[type="checkbox"]:checked {
   }
 }
 
-@media (max-height: 280px) and (max-width: 190px) {
+@media (max-height: 260px) and (max-width: 190px) {
   .container {
     width: 90vw;
   }
