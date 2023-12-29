@@ -16,9 +16,9 @@ export const readFile = async (filePath: string, encoding: { encoding: string })
     return `{
         "missingFilesPool": 0,
         "searchPool": 0,
-        "relinkMethod": 0,
+        "ignoreCasing": 0,
+        "consolidate": 0,
         "ignoreFileExtensions": false,
-        "perfectMatch": true,
         "searchPath": "C:/Users/Brian",
         "showHelpTips": true,
         "maxDepth": 12
