@@ -1,6 +1,6 @@
 import { Settings } from "./types/Settings.d"
 import { Config } from "./types/Config.d"
-import { MISSINGFILESPOOL, SEARCHPOOL, RELINKMETHOD } from "@utils/SettingConstants"
+import { MISSINGFILESPOOL, SEARCHPOOL } from "@utils/SettingConstants"
 // import * as os from "@mocks/os-mock"//!DEBUGMODE
 import os from "os" //-- Production Import
 
@@ -9,10 +9,10 @@ const homedir = os.homedir()
 const defaultSettings: Settings = {
     missingFilesPool: MISSINGFILESPOOL.SELECTION,
     searchPool: SEARCHPOOL.SYSTEM,
-    relinkMethod: RELINKMETHOD.RECONNECT,
     searchPath: homedir,
     ignoreFileExtensions: false,
-    perfectMatch: true,
+    ignoreCasing: false,
+    consolidate: false,
     showHelpTips: true,
     maxDepth: 12
 }

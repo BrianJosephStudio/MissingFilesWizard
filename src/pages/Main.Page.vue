@@ -16,13 +16,6 @@
         :Options="dropdownOptions.searchPool"
         :Selected="selectedSearchPool"
       ></Dropdown>
-      <h2>Relink Method</h2>
-      <Dropdown
-        :Id="'relinkMethod'"
-        :Name="'relinkMethod'"
-        :Options="dropdownOptions.relinkMethod"
-        :Selected="selectedRelinkMethod"
-      ></Dropdown>
       <div class="cbContainer">
         <label for="ignoreFileExt">Ignore File Extension</label>
         <input
@@ -33,26 +26,36 @@
         />
       </div>
       <div class="cbContainer">
-        <label for="perfectMatch">Perfect match</label>
+        <label for="ignoreCasing">Ignore Casing</label>
         <input
-          ref="perfectMatchCheckbox"
-          id="perfectMatch"
+          ref="ignoreCasingCheckbox"
+          id="ignoreCasing"
           type="checkbox"
           checked
-          @change="perfectMatchListener"
+          @change="ignoreCasingListener"
         />
       </div>
-    </div>
-    <div class="maxDepthContainer">
-      <label for="maxDepth">Search Depth</label>
-      <input
-        ref="maxDepthInput"
-        class="maxDepth"
-        type="text"
-        name="maxDepth"
-        id="maxDepthInput"
-        @change="filterMaxDepthInput"
-      />
+      <div class="cbContainer">
+        <label for="consolidate">Consolidate Duplicates</label>
+        <input
+          ref="consolidateCheckbox"
+          id="consolidate"
+          type="checkbox"
+          checked
+          @change="consolidateListener"
+        />
+      </div>
+      <div class="maxDepthContainer">
+        <label for="maxDepth">Search Depth</label>
+        <input
+          ref="maxDepthInput"
+          class="maxDepth"
+          type="text"
+          name="maxDepth"
+          id="maxDepthInput"
+          @change="filterMaxDepthInput"
+        />
+      </div>
     </div>
     <div class="searchPathContainer">
       <input
@@ -109,10 +112,10 @@ const extendScript = new ExtendScriptAPI();
 
 let selectedMissingPool = ref(dropdownOptions.missingFilesPool[0]);
 let selectedSearchPool = ref(dropdownOptions.searchPool[0]);
-let selectedRelinkMethod = ref(dropdownOptions.relinkMethod[0]);
 
 const ignoreFileExtensionCheckbox = ref(null);
-const perfectMatchCheckbox = ref(null);
+const ignoreCasingCheckbox = ref(null);
+const consolidateCheckbox = ref(null);
 const searchPathInput = ref(null);
 const maxDepthInput = ref(null);
 
@@ -136,9 +139,14 @@ const ignoreFileExtListener = async (event: Event): Promise<void> => {
   AppSettings.changeSetting({ ignoreFileExtensions: checkedStatus });
 };
 
-const perfectMatchListener = async (event: Event): Promise<void> => {
+const ignoreCasingListener = async (event: Event): Promise<void> => {
   const checkedStatus = (event.currentTarget! as HTMLInputElement).checked;
-  AppSettings.changeSetting({ perfectMatch: checkedStatus });
+  AppSettings.changeSetting({ ignoreCasing: checkedStatus });
+};
+
+const consolidateListener = async (event: Event): Promise<void> => {
+  const checkedStatus = (event.currentTarget! as HTMLInputElement).checked;
+  AppSettings.changeSetting({ consolidate: checkedStatus });
 };
 
 const searchPathListener = async (event: Event): Promise<void> => {
@@ -172,13 +180,13 @@ onMounted(async () => {
   selectedMissingPool.value =
     dropdownOptions.missingFilesPool[settings.missingFilesPool!];
   selectedSearchPool.value = dropdownOptions.searchPool[settings.searchPool!];
-  selectedRelinkMethod.value =
-    dropdownOptions.relinkMethod[settings.relinkMethod!];
 
   (ignoreFileExtensionCheckbox.value! as HTMLInputElement).checked =
     settings.ignoreFileExtensions!;
-  (perfectMatchCheckbox.value! as HTMLInputElement).checked =
-    settings.perfectMatch!;
+  (ignoreCasingCheckbox.value! as HTMLInputElement).checked =
+    settings.ignoreCasing!;
+  (consolidateCheckbox.value! as HTMLInputElement).checked =
+    settings.consolidate!;
   (maxDepthInput.value! as HTMLInputElement).value =
     settings.maxDepth!.toString();
 

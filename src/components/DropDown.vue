@@ -10,7 +10,6 @@ import { onMounted } from "vue";
 
 const selectedMissingPool = AppSettings.currentSettings.missingFilesPool
 const selectedSearchPool = AppSettings.currentSettings.searchPool
-const selectedRelinkMethod = AppSettings.currentSettings.relinkMethod
 
 const props = defineProps({
     Id: String,
