@@ -41,8 +41,18 @@ export class MissingFile {
     }
 
     isMatch(systemFile: SystemFile): boolean {
-        // TODO: Rework to take ignoreExt and perfectMatch into consideration
-        if (systemFile.name === this.file.name) {
+        let missingFileName = this.file.name
+        let inputFileName = systemFile.name
+        if(AppSettings.currentSettings.ignoreFileExtensions){
+            missingFileName = missingFileName.replace(/\.[^.]+$/, "")
+            inputFileName = inputFileName.replace(/\.[^.]+$/, "")
+        }
+        if(AppSettings.currentSettings.ignoreCasing){
+            missingFileName = missingFileName.toLowerCase()
+            inputFileName = inputFileName.toLowerCase()
+        }
+
+        if (missingFileName === inputFileName) {
             return true
         }
         return false
