@@ -99,7 +99,7 @@ export default class ExtendScriptAPI {
 
     public async getAllProjectFootageItems(): Promise<ProjectItem[]> {
         return new Promise<ProjectItem[]>((resolve, reject) => {
-            const script = `getSystemFilesFromFootageItemArray(
+            const script = `stringifyOutput(
                 getAllProjectFootageItems()
             )`;
             this.cs?.evalScript(script, (response: string) => {
