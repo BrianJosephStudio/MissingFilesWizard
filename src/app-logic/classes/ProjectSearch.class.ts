@@ -19,9 +19,13 @@ export class ProjectSearch {
     ) {
         if (missingFile.found) { return }
         await this.syncProjectFootageItems()
-        this.projectItems?.forEach((projectItem: SystemFile) => {
+        this.projectItems?.forEach((projectItem: ProjectItem) => {
             if (missingFile.isMatch(projectItem)) {
-                results.add(projectItem)
+                results.add({
+                    name: projectItem.name,
+                    uri: projectItem.uri,
+                })
+                missingFile.newId = projectItem.id
                 missingFile.found = true
                 return //-- 'return' limits 'Results' to only one match, if you want to find more potential matches; change to 'break'
             }
