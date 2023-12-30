@@ -99,7 +99,7 @@ export default class ExtendScriptAPI {
 
     public async getAllProjectFootageItems(): Promise<ProjectItem[]> {
         return new Promise<ProjectItem[]>((resolve, reject) => {
-            const script = `getSystemFilesFromFootageItemArray(
+            const script = `stringifyOutput(
                 getAllProjectFootageItems()
             )`;
             this.cs?.evalScript(script, (response: string) => {
@@ -116,6 +116,19 @@ export default class ExtendScriptAPI {
 
     public async reconnectMissingFile(itemId: number, newUrl: string): Promise<boolean> {
         const script = `reconnectMissingFile(${itemId},"${newUrl}")`
+        let reconnected: boolean = false
+
+        this.cs?.evalScript(script, async (response) => {
+            const csResponse = JSON.parse(response) as csResponse
+            if (!csResponse.result) {
+            }
+            reconnected = csResponse.result
+        })
+        return reconnected
+    }
+
+    public async consolidateMissingFile(itemId: number, newId: number): Promise<boolean> {
+        const script = `consolidateMissingFile(${itemId},${newId})`
         let reconnected: boolean = false
 
         this.cs?.evalScript(script, async (response) => {

@@ -1,4 +1,5 @@
 import { SystemFile } from "@root/types/SystemFile.d";
+import { ProjectItem } from "@root/types/ProjectItem";
 import { SystemFolder } from "@root/types/SystemFolder.d";
 import { SearchEngine } from "@classes/SearchEngine.class";
 import { SearchResults } from "@classes/SearchResults.class";
@@ -10,13 +11,14 @@ import AppSettings from "@classes/AppSettings.class";
 export class MissingFile {
     public file: SystemFile
     public name: string
-    public originalUri?: string;
-    public originalFolder?: SystemFolder;
+    public originalUri?: string
+    public originalFolder?: SystemFolder
     public id: number
-    public found?: boolean;
-    public newUri?: string;
-    public closeMatch?: string[];
-    private searchEngine: SearchEngine;
+    public found?: boolean
+    public newUri?: string
+    public newId?: number
+    public closeMatch?: string[]
+    private searchEngine: SearchEngine
 
     constructor(name: string, originalUri: string | undefined, id: number) {
         this.name = originalUri ? path.basename(originalUri) : name
@@ -40,7 +42,7 @@ export class MissingFile {
         this.found = reconnected
     }
 
-    isMatch(systemFile: SystemFile): boolean {
+    isMatch(systemFile: ProjectItem): boolean {
         let missingFileName = this.file.name
         let inputFileName = systemFile.name
         if(AppSettings.currentSettings.ignoreFileExtensions){
