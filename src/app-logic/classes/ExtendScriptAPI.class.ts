@@ -127,6 +127,19 @@ export default class ExtendScriptAPI {
         return reconnected
     }
 
+    public async consolidateMissingFile(itemId: number, newId: number): Promise<boolean> {
+        const script = `consolidateMissingFile(${itemId},${newId})`
+        let reconnected: boolean = false
+
+        this.cs?.evalScript(script, async (response) => {
+            const csResponse = JSON.parse(response) as csResponse
+            if (!csResponse.result) {
+            }
+            reconnected = csResponse.result
+        })
+        return reconnected
+    }
+
     public async openDialog(): Promise<void> {
         const currentPath = AppSettings.currentSettings.searchPath
         const script = `openDialog("${currentPath}")`
