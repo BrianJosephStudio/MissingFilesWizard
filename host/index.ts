@@ -149,19 +149,21 @@ function getSystemFilesFromFootageItemArray(itemArray: FootageItem[]): string {
     return stringifyOutput(uriArray)
 }
 
-function getAllProjectFootageItems(): FootageItem[] {
-    const projectFootageItems: FootageItem[] = []
+function getAllProjectFootageItems(): ProjectItem[] {
+    const projectFootageItems: ProjectItem[] = []
     for (var i = 1; i <= app.project.numItems; i++) {
         const currentItem = app.project.item(i) as FootageItem;
         if (!currentItem.mainSource) { continue };
-        if (currentItem.name === "Pearl.png") {
-        }
         if (
             !((currentItem.mainSource as any) instanceof FileSource) ||
             !currentItem.file ||
             currentItem.footageMissing
         ) { continue }
-        projectFootageItems.push(currentItem)
+        projectFootageItems.push(({
+            name: currentItem.name,
+            uri: currentItem.file.fsName,
+            id: currentItem.id,
+        } as ProjectItem))
     };
     return projectFootageItems
 }
@@ -195,6 +197,52 @@ function reconnectMissingFile(id: number, newUrl: string): string {
         }
     }
     return stringifyOutput(output)
+}
+
+function consolidateMissingFile(id: number, newId: number): string {
+    let output: {
+        result: boolean,
+        message: string
+    } = {
+        result: false,
+        message: "Generic error"
+    }
+    
+    const missingItem = app.project.itemByID(id) as FootageItem
+    const foundMatch = app.project.itemByID(newId) as FootageItem
+    const usedIn: CompItem[] = missingItem.usedIn
+
+    for (const comp of usedIn) {
+        const missingLayers: AVLayer[] = getMissingLayersInComposition(comp)
+        for (const missingLayer of missingLayers) {
+            if(missingLayer.source.id === missingItem.id) {
+                try{
+                    missingLayer.replaceSource(foundMatch,true)
+                }catch(e){}
+            }
+        }
+    }
+    if (missingItem.usedIn.length > 0) {
+        output.message = "Reconnection was attempted but failed for some layers"
+    } else {
+        missingItem.remove()
+        output = {
+            result: true,
+            message: "Reconnection Successful"
+        }
+    }
+    return stringifyOutput(output)
+}
+
+function getMissingLayersInComposition(comp: CompItem): AVLayer[] {
+    const missingLayers: AVLayer[] = []
+    for (let i = 1; i <= comp.numLayers; i++) {
+        const currentLayer = comp.layer(i) as AVLayer
+        if(currentLayer.source && currentLayer.source.footageMissing){
+            missingLayers.push(currentLayer)
+        }
+    }
+    return missingLayers
 }
 
 function openDialog(currentPath: string): string {
