@@ -1,18 +1,64 @@
-# Vue 3 + TypeScript + Vite
+# Missing Files Wizard
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+MF Wizard is an Adobe After Effects CEP Extension that simplifies reconnecting missing files in AE. I always felt like dealing with missing files using the native interface was more work than it should be, so I wanted to create an algorythm that made it so that I could click a button and forget about it.
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Missing Files Pool Dropdown
 
-## Type Support For `.vue` Imports in TS
+This is where you tell the MF wizard what missing files you would like it to attempt to reconnect. 
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### Selection:
+Attemps to reconnect any missing files that exist in your active selection on your project panel. The MF Wizard acts upon thre types of items. The MF Wizard acts upon three types os items and ignores the rest:
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- **Media Items:** These are Items that have a source, typically iamge and video format items.
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- **Composition Items:** For all selected compositions, MF Wizard will scan the composition for layers that have a missing source and will attempt to reconnect those. Please, **be aware** that any missing layers in your composition will be inderectly considered part of your selection even if those files are not directly in your selection. The parent comp is, so all of its missing layer sources become part of the active selection as well.
+
+- **Folder Items:** Following the same logic as with selected compositions; selected folders will be scanned for missing files, including all of its children media items **and** composition items, as well as all the missing layer sources in the children composition items, even if those layers aren't contained within the selected folder to begin with.
+
+	
+
+## Search Pool Dropdown
+
+This tells the MF Wizard where you would like it to search for matching files.
+
+- **Project:** Searches the entire project panel for an already existing duplicate of your missing file. The searching criteria is an exact match in the file name.
+
+- **System:** Asynchronously searches the specified folder for files that contain a matching name. It will also search subfolders down to a specified amount of subfolders.
+- 
+- **Hybrid:** It will first attempt to perform a project search, upon failure, it will perform a system search.
+
+## Ignore File Extensions Checkbox
+
+If active, it doesn't take the file extension into consideration when searching for matches.
+So 'fileName.jpeg' is a match for fileName.png. This can be useful sometimes but should be used with caustion since 'fileName.jpeg' would also be a match for 'fileName.mov'.
+
+## Ignore Casing Checkbox
+
+When active it ignores casing in file names when searching for matches.
+So 'fileName.jpeg' is a match for 'filename.jpeg'
+
+## Consolidate Duplicates Checkbox
+
+This option only has effects on matches found through the project search algorithm. By default the reconnection method when a match for you missing file is found inside your current project is to replace the source for your missing item using the source from the found match. However, this means that now you have a duplicate file, the exact same file is imported twice in the same project. This may be what you want, but if you'd like to avoid this, you can check off this option and the MF Wizard will relink all the layers your footage item is being used on to the found match and upon success will delete your missing file. If you relinking of layers were to fail at all, the Wizard will not delete your missing item.
+
+## Search Depth TextBox
+
+The MFW asynchrounously searches all subfolders in your target search folder. This could lead to some potential issues if you target search folder has too many subfolders. In order to address this, the search depth allows you to choose a maximum  amount of sub-folder levels to search in. A search depth of 0 means that only your target search folder will be searched.
+
+## Search Path
+
+The Search Path defines which folder will be the first one to be searched.
+
+## Folder Button
+
+This button opens a 'select dialog' which allows you to browse your device for your target search folder with your device's native select dialog interface.
+
+## Find Files Button
+
+This is the main action button of the MFW. It begins the search job based on the current settings.
+
+## Unlink Files Button
+
+This is an extra utility included. It allows you to unlink footage items in your project. This may be useful in various niche scenarios.
+```
